@@ -23,9 +23,17 @@ public class Painture {
     void createImage(){
         buffer = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);
         
+        Sphere sphere = new Sphere(new Point(), 60, new Shade(1,0,0));
+        
         for(int y = 0; y < height; y++){
             for (int x = 0; x < width; x++){
-                buffer.setRGB(x, y, Color.DARK_GRAY.getRGB());
+                Ray ray = new Ray(new Point(x-width/2+0.5, y-height/2+0.5, 100), new Vector(0,0,-1));
+                
+                if(sphere.hit(ray) != 0.0){
+                    buffer.setRGB(x, y, sphere.shade.toRGB());
+                } else {
+                    buffer.setRGB(x, y, Color.BLACK.getRGB());
+                }
             }
         }
     }
