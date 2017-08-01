@@ -17,11 +17,14 @@ import javax.imageio.ImageIO;
 public class Painture {
     int width = 640;
     int height = 480;
-    double scale = 2.5;
+    /*int width = 1024;
+    int height = 768;*/
+    double scale = 1;
     BufferedImage buffer = null;
     Scene scene;
-    Sampler sampler = new Sampler.Regular();
-    Projection projection = new Projection.Orthogonal();
+    Sampler sampler = new Sampler.Regular(4);
+    Projection projection = new Projection.Perspective(height,new Point(0, 0, 100), new Point(0, 0, 0), 90);
+    //Projection projection = new Projection.Orthogonal();
 
     public Painture(Scene s) {
         scene = s;

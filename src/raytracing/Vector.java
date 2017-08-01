@@ -19,6 +19,9 @@ public class Vector extends Point {
     Vector(Vector v){
         super(v);
     }
+    Vector(Point p){
+        super(p);
+    }
     
     void normalize(){
         double magnitude = Math.sqrt(x*x + y*y + z*z);
@@ -26,5 +29,22 @@ public class Vector extends Point {
         x /= magnitude;
         y /= magnitude;
         z /= magnitude;
+    }
+    
+    /*Vector add(Vector v){
+        return (Vector) super.add(v);
+    }
+    
+    Vector sub(Vector v){
+        return (Vector) super.sub(v);
+    }
+    
+    @Override
+    Vector mul(double scalar){
+        return (Vector) super.mul(scalar);
+    }*/
+    
+    Vector cross(Vector v){
+        return new Vector(y*v.z - z*v.y, z*v.x - x*v.z, x*v.y - y*v.x);
     }
 }

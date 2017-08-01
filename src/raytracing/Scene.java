@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 public abstract class Scene {
     ArrayList<GeometricObject> objects = new ArrayList<>();
-    Shade background = new Shade(0,1,1);
+    Shade background = new Shade();
     
     GeometricObject hitObject(Ray ray){
         GeometricObject hit = null;
