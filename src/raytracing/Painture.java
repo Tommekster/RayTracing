@@ -18,6 +18,7 @@ import javax.imageio.ImageIO;
 public class Painture {
     int width = 640;
     int height = 480;
+    double scale = 0.25;
     BufferedImage buffer = null;
     
     void createImage(){
@@ -27,13 +28,19 @@ public class Painture {
         
         for(int y = 0; y < height; y++){
             for (int x = 0; x < width; x++){
-                Ray ray = new Ray(new Point(x-width/2+0.5, y-height/2+0.5, 100), new Vector(0,0,-1));
+                Shade shade = new Shade();
                 
-                if(sphere.hit(ray) != 0.0){
-                    buffer.setRGB(x, y, sphere.shade.toRGB());
-                } else {
-                    buffer.setRGB(x, y, Color.BLACK.getRGB());
+                for(int row = 0; row < 8; row++){
+                    for(int col = 0; col < 8; col++){
+                        Ray ray = new Ray(new Point(scale*(x-width/2+(col+0.5)/8), 
+                                scale*(y-height/2+(row+0.5)/8), 100), 
+                                new Vector(0,0,-1));
+                        if(sphere.hit(ray) != 0.0){
+                            shade.add(sphere.shade);
+                        }
+                    }
                 }
+                buffer.setRGB(x, y, shade.div(64).toRGB());
             }
         }
     }

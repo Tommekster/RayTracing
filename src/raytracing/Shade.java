@@ -33,10 +33,12 @@ public class Shade {
         b += s.b;
     }
     
-    void div(double scalar){
+    Shade div(double scalar){
         r /= scalar;
         g /= scalar;
         b /= scalar;
+        
+        return this;
     }
     
     int toRGB(){
