@@ -12,11 +12,14 @@ package raytracing;
 public class Normal extends Vector{
     Normal(){
         super(0,0,0);
+        normalize();
     }
     Normal(double x, double y, double z){
         super(x,y,z);
+        normalize();
     }
     Normal(Normal n){
         super(n);
+        normalize();
     }
 }

@@ -16,6 +16,12 @@ public class Shade {
     Shade(){
         this(0,0,0);
     }
+    Shade(int code){
+        Color c = new Color(code);
+        r = c.getRed()/255.0;
+        g = c.getGreen()/255.0;
+        b = c.getBlue()/255.0;
+    }
     Shade(double _r, double _g, double _b){
         r = _r;
         g = _g;

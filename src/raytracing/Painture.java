@@ -19,11 +19,11 @@ public class Painture {
     int height = 480;
     /*int width = 1024;
     int height = 768;*/
-    double scale = 1;
+    double scale = 2;
     BufferedImage buffer = null;
     Scene scene;
     Sampler sampler = new Sampler.Regular(4);
-    Projection projection = new Projection.Perspective(height,new Point(0, 0, 100), new Point(0, 0, 0), 90);
+    Projection projection = new Projection.Perspective(height,new Point(0, 0, 600), new Point(0, 0, 0), 45);
     //Projection projection = new Projection.Orthogonal();
 
     public Painture(Scene s) {

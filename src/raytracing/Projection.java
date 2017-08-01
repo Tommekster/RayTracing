@@ -22,10 +22,10 @@ public abstract class Projection {
         
         Vector up = new Vector(0.0001234, 1, 0.1355);
         
-        u = w.cross(up); //up.cross(w);
+        u = up.cross(w);
         u.normalize();
         
-        v = w.cross(w);
+        v = w.cross(u);
         v.normalize();
     }
     
@@ -45,7 +45,8 @@ public abstract class Projection {
             eye = new Point(_eye);
             lookat = new Point(_lookat);
             // tan(theta) = view_height/(2distance);
-            distance = height/2/Math.tan(Math.toRadians(FOV));
+            double dist = (height/2.0)/Math.tan(Math.toRadians(FOV));
+            distance = dist;
             
             computeVectors();
         }
