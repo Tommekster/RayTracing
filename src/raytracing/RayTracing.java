@@ -18,7 +18,7 @@ public class RayTracing {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws IOException {
-        Painture p = new Painture();
+        Painture p = new Painture(new Scene1());
         System.out.println("generating image...");
         p.createImage();
         System.out.println("saving to image.png");
