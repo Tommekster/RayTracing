@@ -30,6 +30,9 @@ public class Point {
     Point sub(Point p){
         return new Point(x - p.x, y - p.y, z - p.z);
     }
+    Point mul(double scalar){
+        return new Point(x*scalar,y*scalar,z*scalar);
+    }
     double dot(Point v){
         return x * v.x + y * v.y + z * v.z;
     }

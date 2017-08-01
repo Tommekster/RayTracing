@@ -5,11 +5,9 @@
  */
 package raytracing;
 
-import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.Random;
 import javax.imageio.ImageIO;
 
 /**
@@ -17,14 +15,13 @@ import javax.imageio.ImageIO;
  * @author zikmundt
  */
 public class Painture {
-    static final int SAMPLES = 8;
-    
     int width = 640;
     int height = 480;
     double scale = 2.5;
     BufferedImage buffer = null;
     Scene scene;
-    Random random = new Random();
+    Sampler sampler = new Sampler.Regular();
+    Projection projection = new Projection.Orthogonal();
 
     public Painture(Scene s) {
         scene = s;
@@ -47,18 +44,20 @@ public class Painture {
 
     void trace(int x, int y) {
         Shade shade = new Shade();
-        for(int row = 0; row < SAMPLES; row++){
-            for(int col = 0; col < SAMPLES; col++){
-                Ray ray = new Ray(new Point(scale*(x-width/2+(col+random.nextFloat())/SAMPLES),
-                        scale*(y-height/2+(row+random.nextFloat())/SAMPLES), 100),
-                        new Vector(0,0,-1));
+        for(int row = 0; row < sampler.samples; row++){
+            for(int col = 0; col < sampler.samples; col++){
+                Point sample = sampler.sample(row, col, x-width/2, y-height/2).mul(scale);
+                Ray ray = projection.createRay(sample);
+                
                 GeometricObject hitobj = scene.hitObject(ray);
                 if(hitobj != null){
                     shade.add(hitobj.shade);
+                } else {
+                    shade.add(scene.background);
                 }
             }
         }
-        buffer.setRGB(x, y, shade.div(SAMPLES*SAMPLES).toRGB());
+        buffer.setRGB(x, height-y-1 /* reverse coord*/, shade.div(sampler.samples*sampler.samples).toRGB());
     }
     
     void saveFile(String filename) throws IOException{
