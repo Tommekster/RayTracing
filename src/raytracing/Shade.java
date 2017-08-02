@@ -44,7 +44,7 @@ public class Shade {
         g *= s.g;
         b *= s.b;
         
-        return this;
+        return new Shade(r*s.r,g*s.g,b*s.b);
     }
     
     Shade mul(double scalar){
@@ -52,7 +52,7 @@ public class Shade {
         g *= scalar;
         b *= scalar;
         
-        return this;
+        return new Shade(r*scalar, g*scalar, b*scalar);
     }
     
     Shade div(double scalar){
