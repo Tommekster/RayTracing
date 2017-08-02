@@ -63,6 +63,17 @@ public class Shade {
         return this;
     }
     
+    Shade norm(){
+        if(r > 1) r = 1;
+        else if(r < 0) r = 0;
+        if(g > 1) g = 1;
+        else if(g < 0) g = 0;
+        if(b > 1) b = 1;
+        else if(b < 0) b = 0;
+        
+        return this;
+    }
+    
     int toRGB(){
         return (new Color((float)r,(float)g,(float)b)).getRGB();
     }

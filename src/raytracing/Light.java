@@ -51,6 +51,10 @@ public abstract class Light {
         public Spherical(Point position) {
             this.position = position;
         }
+        public Spherical(Point position, Shade color) {
+            this.position = position;
+            this.color = color;
+        }
         
         
         @Override

@@ -13,8 +13,11 @@ import java.util.ArrayList;
  */
 public abstract class Scene {
     ArrayList<GeometricObject> objects = new ArrayList<>();
+    ArrayList<Light> lights = new ArrayList<>();
     Shade background = new Shade();
-    Light light = new Light.Distant();
+    {
+        lights.add(new Light.Distant());
+    }
     
     Hit hitObject(Ray ray){
         GeometricObject hitObj = null;

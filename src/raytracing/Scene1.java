@@ -13,12 +13,13 @@ public class Scene1 extends Scene{
 
     public Scene1() {
         background = new Shade(0,1,1);
-        light = new Light.Spherical(new Point(0,100,20));
-        //light = new Light.Spherical(new Point(-200,200,0));
-        //light = new Light.Distant(new Normal(1,-1,0));
+        lights.clear();
+        lights.add(new Light.Spherical(new Point(0,500,20),new Shade(0xffff00)));
+        lights.add(new Light.Spherical(new Point(150,500,20),new Shade(0x00ff00)));
+        //lights.add(new Light.Spherical(new Point(-150,500,20),new Shade(0x0000ff)));
         
         objects.add(new Sphere(new Point(0,0,-200), 50, new Shade(1,0,0)));
-        //objects.add(new Disk(new Point(0,0,-200), new Normal(2, 2, 1), 75, new Shade(0xaa3939)));
+        objects.add(new Disk(new Point(0,0,-200), new Normal(2, 2, 1), 75, new Shade(0xaa3939)));
         objects.add(new Sphere(new Point(), 50, new Shade(1,1,0)));
         objects.add(new Sphere(new Point(-200,0,0), 50, new Shade(0,1,0)));
         objects.add(new Sphere(new Point(200,0,0), 50, new Shade(0,0,1)));

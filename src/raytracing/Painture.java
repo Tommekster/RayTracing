@@ -54,7 +54,7 @@ public class Painture {
                 
                 Hit hit = scene.hitObject(ray);
                 if(hit != null){
-                    shade.add(hit.getShade(scene,x,y));
+                    shade.add(hit.getShade(scene));
                 } else {
                     shade.add(scene.background);
                 }
