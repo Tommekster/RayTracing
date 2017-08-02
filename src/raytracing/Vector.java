@@ -39,12 +39,12 @@ public class Vector extends Point {
     
     Vector sub(Vector v){
         return (Vector) super.sub(v);
-    }
+    }*/
     
     @Override
     Vector mul(double scalar){
-        return (Vector) super.mul(scalar);
-    }*/
+        return new Vector(super.mul(scalar));
+    }
     
     Vector cross(Vector v){
         return new Vector(y*v.z - z*v.y, z*v.x - x*v.z, x*v.y - y*v.x);

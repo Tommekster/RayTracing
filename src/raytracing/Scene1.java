@@ -13,10 +13,10 @@ public class Scene1 extends Scene{
 
     public Scene1() {
         background = new Shade(0,1,1);
-        
+        //light = new Light.Distant(new Normal(0,100,20));
         
         objects.add(new Sphere(new Point(0,0,-200), 50, new Shade(1,0,0)));
-        objects.add(new Disk(new Point(0,0,-200), new Normal(2, 1, 1), 75, new Shade(0xaa3939)));
+        objects.add(new Disk(new Point(0,0,-200), new Normal(2, 2, 1), 75, new Shade(0xaa3939)));
         objects.add(new Sphere(new Point(), 50, new Shade(1,1,0)));
         objects.add(new Sphere(new Point(-200,0,0), 50, new Shade(0,1,0)));
         objects.add(new Sphere(new Point(200,0,0), 50, new Shade(0,0,1)));
@@ -32,7 +32,7 @@ public class Scene1 extends Scene{
         //objects.add
         
         // zadni, predni steny
-        objects.add(new Plane(new Point(0, 0, 1000), new Normal(0,0,1), new Shade(0x80b300))); // zelene
+        //objects.add(new Plane(new Point(0, 0, 1000), new Normal(0,0,1), new Shade(0x80b300))); // zelene
         objects.add(new Plane(new Point(0, 0, -1000), new Normal(0,0,1), new Shade(0xffb300))); // oranzove
     }
     

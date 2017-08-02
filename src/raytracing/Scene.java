@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public abstract class Scene {
     ArrayList<GeometricObject> objects = new ArrayList<>();
     Shade background = new Shade();
-    Light light = new Light(new Point(0,10E8,0),1,new Shade(1, 1, 1));
+    Light light = new Light.Distant();
     
     Hit hitObject(Ray ray){
         GeometricObject hitObj = null;
@@ -29,6 +29,6 @@ public abstract class Scene {
             }
         }
         
-        return new Hit(hitObj,ray,dist);
+        return (hitObj == null)?null:new Hit(hitObj,ray,dist);
     }
 }

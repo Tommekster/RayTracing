@@ -21,7 +21,7 @@ public class Hit {
     }
     
     Shade getShade(Scene s){
-        Ray shadowRay = new Ray(point, new Normal(point.sub(s.light.position)));
+        Ray shadowRay = new Ray(point, s.light.getDirection(point).mul(-1));
         
         if(s.hitObject(shadowRay) == null){
             // not in shadow
