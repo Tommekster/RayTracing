@@ -14,20 +14,21 @@ import java.util.ArrayList;
 public abstract class Scene {
     ArrayList<GeometricObject> objects = new ArrayList<>();
     Shade background = new Shade();
+    Light light = new Light(new Point(0,10E8,0),1,new Shade(1, 1, 1));
     
-    GeometricObject hitObject(Ray ray){
-        GeometricObject hit = null;
+    Hit hitObject(Ray ray){
+        GeometricObject hitObj = null;
         double dist = 0;
         for(GeometricObject obj : objects){
             double t = obj.hit(ray);
             if(t > 0){
-                if(hit == null  || (dist > t)){
-                    hit = obj;
+                if(hitObj == null  || (dist > t)){
+                    hitObj = obj;
                     dist = t;
                 }
             }
         }
         
-        return hit;
+        return new Hit(hitObj,ray,dist);
     }
 }

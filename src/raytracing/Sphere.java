@@ -33,5 +33,10 @@ public class Sphere extends GeometricObject{
             return retVal((-b - Math.sqrt(discriminant))/2/a);
         }
     }
+
+    @Override
+    Normal getPointNormal(Point p) {
+        return new Normal(p.sub(center));
+    }
     
 }

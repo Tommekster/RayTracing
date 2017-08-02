@@ -22,4 +22,8 @@ public class Normal extends Vector{
         super(n);
         normalize();
     }
+    Normal(Point p){
+        super(p);
+        normalize();
+    }
 }

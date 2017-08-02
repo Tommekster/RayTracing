@@ -12,6 +12,7 @@ package raytracing;
 public abstract class GeometricObject {
     Shade shade;
     abstract double hit(Ray ray);
+    abstract Normal getPointNormal(Point p);
     double retVal(double t){
         if(t > RayTracing.MINIMAL_VALUE) return t;
         else return 0;

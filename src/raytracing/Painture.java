@@ -52,12 +52,9 @@ public class Painture {
                 Point sample = sampler.sample(row, col, x-width/2, y-height/2).mul(scale);
                 Ray ray = projection.createRay(sample);
                 
-                GeometricObject hitobj = scene.hitObject(ray);
-                if(hitobj != null){
-                    if(hitobj instanceof Sphere){
-                        
-                    }
-                    shade.add(hitobj.shade);
+                Hit hit = scene.hitObject(ray);
+                if(hit != null){
+                    shade.add(hit.getShade(scene));
                 } else {
                     shade.add(scene.background);
                 }

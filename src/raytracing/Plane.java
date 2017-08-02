@@ -26,4 +26,9 @@ public class Plane extends GeometricObject{
         
         return retVal(t);
     }
+    
+    @Override
+    Normal getPointNormal(Point p) {
+        return normal;
+    }
 }

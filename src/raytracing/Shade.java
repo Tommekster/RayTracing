@@ -39,6 +39,14 @@ public class Shade {
         b += s.b;
     }
     
+    Shade mul(double scalar){
+        r *= scalar;
+        g *= scalar;
+        b *= scalar;
+        
+        return this;
+    }
+    
     Shade div(double scalar){
         r /= scalar;
         g /= scalar;
