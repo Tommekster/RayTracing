@@ -19,11 +19,11 @@ public abstract class Scene {
         GeometricObject hit = null;
         double dist = 0;
         for(GeometricObject obj : objects){
-            double h = obj.hit(ray);
-            if(h > 0){
-                if(hit == null  || (dist > h)){
+            double t = obj.hit(ray);
+            if(t > 0){
+                if(hit == null  || (dist > t)){
                     hit = obj;
-                    dist = h;
+                    dist = t;
                 }
             }
         }

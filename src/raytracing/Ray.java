@@ -16,5 +16,6 @@ public class Ray {
     Ray(Point _origin, Vector _direction){
         origin = new Point(_origin);
         direction = new Vector(_direction);
+        direction.normalize();
     }
 }

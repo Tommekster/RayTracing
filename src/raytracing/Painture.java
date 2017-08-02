@@ -54,6 +54,9 @@ public class Painture {
                 
                 GeometricObject hitobj = scene.hitObject(ray);
                 if(hitobj != null){
+                    if(hitobj instanceof Sphere){
+                        
+                    }
                     shade.add(hitobj.shade);
                 } else {
                     shade.add(scene.background);

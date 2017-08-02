@@ -17,7 +17,7 @@ public abstract class Projection {
     
     abstract Ray createRay(Point origin);
     final void computeVectors(){
-        w = new Vector(eye.sub(lookat));
+        w = new Vector(lookat.sub(eye));
         w.normalize();
         
         Vector up = new Vector(0.0001234, 1, 0.1355);
@@ -45,7 +45,7 @@ public abstract class Projection {
             eye = new Point(_eye);
             lookat = new Point(_lookat);
             // tan(theta) = view_height/(2distance);
-            double dist = (height/2.0)/Math.tan(Math.toRadians(FOV));
+            double dist = (height/2.0)/Math.tan(Math.toRadians(FOV/2));
             distance = dist;
             
             computeVectors();
