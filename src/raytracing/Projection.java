@@ -17,15 +17,16 @@ public abstract class Projection {
     
     abstract Ray createRay(Point origin);
     final void computeVectors(){
-        w = new Vector(lookat.sub(eye));
+        w = new Vector(eye.sub(lookat)); // forward
         w.normalize();
         
-        Vector up = new Vector(0.0001234, 1, 0.1355);
+        //Vector up = new Vector(0.0001234, 1, 0.1355);
+        Vector up = new Vector(0, 1, 0);
         
-        u = up.cross(w);
+        u = up.cross(w); // right
         u.normalize();
         
-        v = w.cross(u);
+        v = w.cross(u); // perpendiculary up
         v.normalize();
     }
     
@@ -53,7 +54,7 @@ public abstract class Projection {
         
         @Override
         Ray createRay(Point point) {
-            Ray ray = new Ray(eye, new Vector(u.mul(point.x).add(v.mul(point.y).sub(w.mul(-distance)))));
+            Ray ray = new Ray(eye, new Vector(u.mul(point.x).add(v.mul(point.y).sub(w.mul(distance)))));
             ray.direction.normalize();
             
             return ray;

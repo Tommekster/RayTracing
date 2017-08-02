@@ -23,12 +23,14 @@ public class Vector extends Point {
         super(p);
     }
     
-    void normalize(){
+    Vector normalize(){
         double magnitude = Math.sqrt(x*x + y*y + z*z);
         
         x /= magnitude;
         y /= magnitude;
         z /= magnitude;
+        
+        return this;
     }
     
     /*Vector add(Vector v){
