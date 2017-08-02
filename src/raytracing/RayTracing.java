@@ -23,6 +23,10 @@ public class RayTracing {
         p.createImage();
         System.out.println("saving to image.png");
         p.saveFile("image.png");
+        
+        MainWindow mw = new MainWindow();
+        mw.displayImage(p.buffer);
+        mw.setVisible(true);
     }
     
 }
