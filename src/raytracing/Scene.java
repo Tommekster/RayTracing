@@ -20,6 +20,10 @@ public abstract class Scene {
     }
     
     Hit hitObject(Ray ray){
+        return hitObject(ray,false);
+    }
+    
+    Hit hitObject(Ray ray, boolean shadowRay){
         GeometricObject hitObj = null;
         double dist = 0;
         for(GeometricObject obj : objects){

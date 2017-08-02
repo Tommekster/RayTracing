@@ -11,10 +11,18 @@ package raytracing;
  */
 public abstract class GeometricObject {
     Shade shade;
+    MaterialType type = MaterialType.Diffuse;
+    double ior = 1;
+    double [] albedo = {0.18, 0.18, 0.18}; 
+    
     abstract double hit(Ray ray);
     abstract Normal getPointNormal(Point p);
     double retVal(double t){
         if(t > RayTracing.MINIMAL_VALUE) return t;
         else return 0;
+    }
+    
+    enum MaterialType{
+        Diffuse, Reflection, ReflectionAndRefraction
     }
 }

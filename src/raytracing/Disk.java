@@ -21,7 +21,7 @@ public class Disk extends Plane{
     public Disk(Point _point, Normal _normal, float _radius, float _radius2 , Shade _shade) {
         super(_point, _normal, _shade);
         radius = _radius;
-        radius = _radius2;
+        radius2 = _radius2;
     }
 
     @Override

@@ -17,7 +17,13 @@ public class Sphere extends GeometricObject{
         center = new Point(_center);
         radius = _radius;
         shade = new Shade(_shade);
-        
+    }
+
+    Sphere(Point _center, double _radius, Shade _shade, MaterialType _type) {
+        center = new Point(_center);
+        radius = _radius;
+        shade = new Shade(_shade);
+        type = _type;
     }
 
     @Override

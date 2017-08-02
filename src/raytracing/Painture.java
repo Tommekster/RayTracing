@@ -25,9 +25,11 @@ public class Painture {
     Sampler sampler = new Sampler.Regular(4);
     Projection projection = new Projection.Perspective(height,new Point(-100, 200, 300), new Point(0, 0, 0), 45);
     //Projection projection = new Projection.Orthogonal();
+    Tracer tracer;
 
     public Painture(Scene s) {
         scene = s;
+        tracer = new Tracer(scene, sampler, projection, width, height, scale);
     }
     
     
@@ -40,27 +42,9 @@ public class Painture {
         
         for(int y = 0; y < height; y++){
             for (int x = 0; x < width; x++){
-                trace(x, y);
+                buffer.setRGB(x, height-y-1 /* reverse coord*/, tracer.trace(x, y));
             }
         }
-    }
-
-    void trace(int x, int y) {
-        Shade shade = new Shade();
-        for(int row = 0; row < sampler.samples; row++){
-            for(int col = 0; col < sampler.samples; col++){
-                Point sample = sampler.sample(row, col, x-width/2, y-height/2).mul(scale);
-                Ray ray = projection.createRay(sample);
-                
-                Hit hit = scene.hitObject(ray);
-                if(hit != null){
-                    shade.add(hit.getShade(scene));
-                } else {
-                    shade.add(scene.background);
-                }
-            }
-        }
-        buffer.setRGB(x, height-y-1 /* reverse coord*/, shade.div(sampler.samples*sampler.samples).toRGB());
     }
     
     void saveFile(String filename) throws IOException{

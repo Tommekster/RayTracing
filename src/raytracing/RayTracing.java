@@ -13,6 +13,8 @@ import java.io.IOException;
  */
 public class RayTracing {
     public static final double MINIMAL_VALUE = 1E-4;
+    public static final double BIAS = 1E-4;
+    public static final int MAX_DEPTH = 3;
 
     /**
      * @param args the command line arguments
