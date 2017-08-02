@@ -23,7 +23,7 @@ public class Painture {
     BufferedImage buffer = null;
     Scene scene;
     Sampler sampler = new Sampler.Regular(4);
-    Projection projection = new Projection.Perspective(height,new Point(-100, 300, 300), new Point(0, 0, 0), 45);
+    Projection projection = new Projection.Perspective(height,new Point(-100, 200, 300), new Point(0, 0, 0), 45);
     //Projection projection = new Projection.Orthogonal();
 
     public Painture(Scene s) {
@@ -54,7 +54,7 @@ public class Painture {
                 
                 Hit hit = scene.hitObject(ray);
                 if(hit != null){
-                    shade.add(hit.getShade(scene));
+                    shade.add(hit.getShade(scene,x,y));
                 } else {
                     shade.add(scene.background);
                 }

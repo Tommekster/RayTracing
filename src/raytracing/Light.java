@@ -15,7 +15,7 @@ public abstract class Light {
 
     public Light() {
         brightness = 1;
-        color = new Shade();
+        color = new Shade(1,1,1);
     }
     public Light(Point position, float brightness, Shade color) {
         this.brightness = brightness;
@@ -48,6 +48,10 @@ public abstract class Light {
         public Spherical() {
             position = new Point(0, 1e8, 0);
         }
+        public Spherical(Point position) {
+            this.position = position;
+        }
+        
         
         @Override
         Vector getDirection(Point p) {

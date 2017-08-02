@@ -12,7 +12,7 @@ import java.io.IOException;
  * @author zikmundt
  */
 public class RayTracing {
-    public static final double MINIMAL_VALUE = 1E-10;
+    public static final double MINIMAL_VALUE = 1E-4;
 
     /**
      * @param args the command line arguments
