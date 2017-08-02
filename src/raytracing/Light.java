@@ -10,7 +10,7 @@ package raytracing;
  * @author zikmundt
  */
 public abstract class Light {
-    float brightness;
+    double brightness;
     Shade color;
 
     public Light() {
@@ -54,6 +54,11 @@ public abstract class Light {
         public Spherical(Point position, Shade color) {
             this.position = position;
             this.color = color;
+        }
+        public Spherical(Point position, Shade color,double brightness) {
+            this.position = position;
+            this.color = color;
+            this.brightness = brightness;
         }
         
         

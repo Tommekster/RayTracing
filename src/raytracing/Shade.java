@@ -40,18 +40,10 @@ public class Shade {
     }
     
     Shade mul(Shade s){
-        r *= s.r;
-        g *= s.g;
-        b *= s.b;
-        
         return new Shade(r*s.r,g*s.g,b*s.b);
     }
     
     Shade mul(double scalar){
-        r *= scalar;
-        g *= scalar;
-        b *= scalar;
-        
         return new Shade(r*scalar, g*scalar, b*scalar);
     }
     
