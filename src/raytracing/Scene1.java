@@ -26,7 +26,7 @@ public class Scene1 extends Scene{
         objects.add(new Sphere(new Point(), 50, new Shade(1,1,0)));
         objects.add(new Sphere(new Point(-200,0,0), 50, new Shade(0,1,0)));
         objects.add(new Sphere(new Point(200,0,0), 50, new Shade(0,0,1)));
-        //objects.add(new Plane(new Point(0,0,0), new Normal(0, 1, 0.2), new Shade(1,1,0)));
+        objects.add(new Sphere(new Point(-60,60,120), 60, new Shade(1,1,0), GeometricObject.MaterialType.ReflectionAndRefraction, 1.2));
         // podlaha
         //objects.add(new Plane(new Point(0,-100,0), new Normal(0, 1, 0), new Shade(0x921400)));
         objects.add(new Plane(new Point(0,-100,0), new Normal(0, 1, 0), new Shade(0x929292)));

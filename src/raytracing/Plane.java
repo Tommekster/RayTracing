@@ -18,6 +18,13 @@ public class Plane extends GeometricObject{
         normal = new Normal(_normal);
         shade = new Shade(_shade);
     }
+    
+    Plane(Point _point, Normal _normal, Shade _shade, MaterialType _type){
+        point = new Point(_point);
+        normal = new Normal(_normal);
+        shade = new Shade(_shade);
+        type = _type;
+    }
 
     @Override
     double hit(Ray ray) {

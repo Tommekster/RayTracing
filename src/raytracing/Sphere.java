@@ -24,6 +24,15 @@ public class Sphere extends GeometricObject{
         radius = _radius;
         shade = new Shade(_shade);
         type = _type;
+        if(type == MaterialType.ReflectionAndRefraction) ior = 1.2;
+    }
+
+    Sphere(Point _center, double _radius, Shade _shade, MaterialType _type, double _ior) {
+        center = new Point(_center);
+        radius = _radius;
+        shade = new Shade(_shade);
+        type = _type;
+        ior = _ior;
     }
 
     @Override

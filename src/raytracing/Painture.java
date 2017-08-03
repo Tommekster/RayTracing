@@ -22,8 +22,8 @@ public class Painture {
     double scale = 2;
     BufferedImage buffer = null;
     Scene scene;
-    Sampler sampler = new Sampler.Regular(4);
-    Projection projection = new Projection.Perspective(height,new Point(-100, 200, 300), new Point(0, 0, 0), 45);
+    Sampler sampler = new Sampler.Regular(8);
+    Projection projection = new Projection.Perspective(height,new Point(-50, 200, 300), new Point(0, 0, 0), 45);
     //Projection projection = new Projection.Orthogonal();
     Tracer tracer;
 
