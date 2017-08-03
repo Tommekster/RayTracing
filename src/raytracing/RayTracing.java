@@ -31,7 +31,8 @@ public class RayTracing {
         
         System.out.println("generating image...");
         p.setDimensions(1280, 960, 0.5);
-        p.sampler = new Sampler.Jittered(16);
+        p.setDimensions(640, 480, 1);
+        p.tracer.sampler = new Sampler.Jittered(8);
         p.createImage();
         mw.displayImage(p.buffer);
         

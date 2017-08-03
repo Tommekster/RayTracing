@@ -8,6 +8,8 @@ package raytracing;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 import javax.imageio.ImageIO;
 
 /**
@@ -61,11 +63,11 @@ public class Painture {
         
         Sphere sphere = new Sphere(new Point(), 60, new Shade(1,0,0));
         
-        for(int y = 0; y < height; y++){
+        IntStream.iterate(0, n->n+1).limit(height).parallel().forEach(y->{
             for (int x = 0; x < width; x++){
                 buffer.setRGB(x, height-y-1 /* reverse coord*/, tracer.trace(x, y));
             }
-        }
+        });
     }
     
     void saveFile(String filename) throws IOException{
