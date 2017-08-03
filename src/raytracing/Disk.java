@@ -10,18 +10,21 @@ package raytracing;
  * @author zikmundt
  */
 public class Disk extends Plane{
-    float radius;
-    float radius2 = 0;
+    double radius;
+    double radius2 = 0;
+    double radius_2;
+    double radius2_2 = 0;
 
-    public Disk(Point _point, Normal _normal, float _radius , Shade _shade) {
+    public Disk(Point _point, Normal _normal, double _radius , Shade _shade) {
         super(_point, _normal, _shade);
         radius = _radius;
+        radius_2 = radius*radius;
     }
 
-    public Disk(Point _point, Normal _normal, float _radius, float _radius2 , Shade _shade) {
-        super(_point, _normal, _shade);
-        radius = _radius;
+    public Disk(Point _point, Normal _normal, double _radius, double _radius2 , Shade _shade) {
+        this(_point, _normal, _radius, _shade);
         radius2 = _radius2;
+        radius2_2 = radius2*radius2;
     }
 
     @Override
@@ -31,7 +34,7 @@ public class Disk extends Plane{
             Point p = ray.origin.add(ray.direction.mul(t));
             Vector v = new Vector(p.sub(point));
             double v2 = v.dot(v);
-            if(v2 > radius*radius || v2 < radius2*radius2)
+            if(v2 > radius_2 || v2 < radius2_2)
                 t = 0;
         }
         return t;

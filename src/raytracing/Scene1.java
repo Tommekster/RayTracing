@@ -39,9 +39,10 @@ public class Scene1 extends Scene{
                 new Point(-250, 250, -550), 
                 new Shade(0x80b300),GeometricObject.MaterialType.Reflection));
         
-        objects.add(new Cylinder(new Point(150, 0, 120), new Point(180, 100, 80), 50, new Shade(0xffb300), GeometricObject.MaterialType.ReflectionAndRefraction, 1.4));
+        //objects.add(new Cylinder(new Point(150, 0, 120), new Point(180, 100, 80), 50, new Shade(0xffb300), GeometricObject.MaterialType.ReflectionAndRefraction, 1.4));
         objects.add(new Cylinder(new Point(-150, 300, -100), new Point(180, 150, -90), 25, new Shade(0xffb300), GeometricObject.MaterialType.Reflection));
-        objects.add(new Cylinder(new Point(-150, 0, -700), new Point(180, 200, -700), 25, new Shade(0xffb300)));
+        objects.add(new Cylinder.Finite(new Point(125, -100, 100), new Point(180, 90, 165), 5, new Shade(0xffb300)));
+        objects.add(new Cylinder.Finite(new Point(150, -100, 120), new Point(150, 50, 120), 50, new Shade(0xffb300), GeometricObject.MaterialType.ReflectionAndRefraction, 1.4));
         
         // floor
         //objects.add(new Plane(new Point(0,-100,0), new Normal(0, 1, 0), new Shade(0x921400)));
