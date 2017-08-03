@@ -23,7 +23,7 @@ public class Plane extends GeometricObject{
         point = new Point(_point);
         normal = new Normal(_normal);
         shade = new Shade(_shade);
-        type = _type;
+        type = (_type == MaterialType.ReflectionAndRefraction)?MaterialType.Reflection:_type;
     }
 
     @Override

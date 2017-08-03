@@ -12,15 +12,21 @@ import java.util.Random;
  * @author zikmundt
  */
 public abstract class Sampler {
-    int samples;
+    int samples = 4;
     abstract Point sample(int row, int col, int x, int y);
+
+    public Sampler() {
+    }
+    public Sampler(int _samples) {
+        samples = _samples;
+    }
     
     static class Regular extends Sampler {
         public Regular() {
-            this(8);
+            super();
         }
-        public Regular(int _samples) {
-            samples = _samples;
+        public Regular(int samples) {
+            super(samples);
         }
 
         @Override
@@ -32,6 +38,14 @@ public abstract class Sampler {
     
     static class Jittered extends Sampler {
         Random random = new Random();
+
+        Jittered() {
+            super();
+        }
+        Jittered(int samples) {
+            super(samples);
+        }
+        
 
         @Override
         Point sample(int row, int col, int x, int y) {

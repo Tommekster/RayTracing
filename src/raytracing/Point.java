@@ -27,8 +27,8 @@ public class Point {
     Point add(Point p){
         return new Point(x + p.x, y + p.y, z + p.z);
     } 
-    Point sub(Point p){
-        return new Point(x - p.x, y - p.y, z - p.z);
+    Vector sub(Point p){
+        return new Vector(x - p.x, y - p.y, z - p.z);
     }
     Point mul(double scalar){
         return new Point(x*scalar,y*scalar,z*scalar);
