@@ -15,25 +15,45 @@ import javax.imageio.ImageIO;
  * @author zikmundt
  */
 public class Painture {
-    int width = 640;
-    int height = 480;
-    /*int width = 1024;
-    int height = 768;*/
+    int width = 320;
+    int height = 240;
     double scale = 2;
     BufferedImage buffer = null;
     Scene scene;
-    //Sampler sampler = new Sampler.Regular(1);
-    Sampler sampler = new Sampler.Jittered(8);
-    Projection projection = new Projection.Perspective(height,new Point(-50, 200, 300), new Point(0, 0, 0), 45);
+    Sampler sampler;
+    //Sampler sampler = new Sampler.Jittered(8);
+    Projection projection;
     //Projection projection = new Projection.Orthogonal();
     Tracer tracer;
 
     public Painture(Scene s) {
         scene = s;
+        sampler = new Sampler.Regular(1);
+        projection = new Projection.Perspective(height,new Point(-50, 200, 300), new Point(0, 0, 0), 45);
         tracer = new Tracer(scene, sampler, projection, width, height, scale);
     }
+    public Painture(Scene s, Sampler _sampler) {
+        scene = s;
+        sampler = _sampler;
+        projection = new Projection.Perspective(height,new Point(-50, 200, 300), new Point(0, 0, 0), 45);
+        tracer = new Tracer(scene, sampler, projection, width, height, scale);
+    }
+    public Painture(int width, int height, double scale, Scene s, Sampler _sampler) {
+        scene = s;
+        sampler = _sampler;
+        projection = new Projection.Perspective(height,new Point(-50, 200, 300), new Point(0, 0, 0), 45);
+        tracer = new Tracer(scene, sampler, projection, width, height, scale);
+        this.width = width;
+        this.height = height;
+        this.scale = scale;
+    }
     
-    
+    void setDimensions(int width, int height, double scale){
+        this.width = width;
+        this.height = height;
+        this.scale = scale;
+        tracer.setDimensions(width, height, scale);
+    }
     
     void createImage(){
         buffer = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);

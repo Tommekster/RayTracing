@@ -26,6 +26,12 @@ public class Tracer {
         this.scale = scale;
     }
     
+    void setDimensions(int width, int height, double scale){
+        this.width = width;
+        this.height = height;
+        this.scale = scale;
+    }
+    
     int trace(int x, int y) {
         Shade shade = new Shade();
         for(int row = 0; row < sampler.samples; row++){

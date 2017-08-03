@@ -32,6 +32,7 @@ public class MainWindow extends javax.swing.JFrame {
         imageScrollPane = new javax.swing.JScrollPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(600, 400));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -86,6 +87,7 @@ public class MainWindow extends javax.swing.JFrame {
     
     public void displayImage(BufferedImage im){
         canvas.setImage(im);
+        canvas.repaint();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
