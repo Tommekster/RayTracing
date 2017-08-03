@@ -21,7 +21,7 @@ public class Scene1 extends Scene{
         lights.add(new Light.Spherical(new Point(150,500,200),new Shade(0xff0000),2));
         lights.add(new Light.Spherical(new Point(-150,500,20),new Shade(0x00ffFF),2));
         
-        objects.add(new Sphere(new Point(0,0,-200), 75, new Shade(1,0,0), GeometricObject.MaterialType.Reflection));
+        objects.add(new Sphere(new Point(0,0,-200), 75, new Shade(1,0,0), GeometricObject.MaterialType.ReflectionAndRefraction, 1.6));
         objects.add(new Disk(new Point(0,0,-200), new Normal(2, 5, 1), 110, 90, new Shade(0xaa3939)));
         objects.add(new Sphere(new Point(), 50, new Shade(1,1,0)));
         objects.add(new Sphere(new Point(-200,0,0), 50, new Shade(0,1,0)));
