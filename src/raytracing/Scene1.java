@@ -21,7 +21,7 @@ public class Scene1 extends Scene{
         lights.add(new Light.Spherical(new Point(150,500,200),new Shade(0xff0000),2));
         lights.add(new Light.Spherical(new Point(-150,500,20),new Shade(0x00ffFF),2));
         
-        // a planet
+        // a metal planet
         objects.add(new Sphere(new Point(0,0,-200), 75, new Shade(1,0,0), GeometricObject.MaterialType.Reflection));
         objects.add(new Disk(new Point(0,0,-200), new Normal(2, 5, 1), 110, 90, new Shade(0xaa3939)));
         
@@ -38,6 +38,10 @@ public class Scene1 extends Scene{
                 new Point(50, 150, -600), 
                 new Point(-250, 250, -550), 
                 new Shade(0x80b300),GeometricObject.MaterialType.Reflection));
+        
+        objects.add(new Cylinder(new Point(150, 0, 120), new Point(180, 100, 80), 50, new Shade(0xffb300), GeometricObject.MaterialType.ReflectionAndRefraction, 1.4));
+        objects.add(new Cylinder(new Point(-150, 300, -100), new Point(180, 150, -90), 25, new Shade(0xffb300), GeometricObject.MaterialType.Reflection));
+        objects.add(new Cylinder(new Point(-150, 0, -700), new Point(180, 200, -700), 25, new Shade(0xffb300)));
         
         // floor
         //objects.add(new Plane(new Point(0,-100,0), new Normal(0, 1, 0), new Shade(0x921400)));

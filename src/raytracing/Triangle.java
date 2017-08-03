@@ -35,9 +35,9 @@ public class Triangle extends Plane {
             Point p = ray.origin.add(ray.direction.mul(t));
             
             // 2. is P inside triangle?
-            if(normal.dot(b.sub(a).cross(p.sub(a))) < 0) return 0; // p is on the right side of (b-a)
-            if(normal.dot(c.sub(b).cross(p.sub(b))) < 0) return 0; // p is on the right side of (b-a)
-            if(normal.dot(a.sub(c).cross(p.sub(c))) < 0) return 0; // p is on the right side of (b-a)
+            if(ray.direction.dot(b.sub(a).cross(p.sub(a))) > 0) return 0; // p is on the right side of (b-a)
+            if(ray.direction.dot(c.sub(b).cross(p.sub(b))) > 0) return 0; // p is on the right side of (b-a)
+            if(ray.direction.dot(a.sub(c).cross(p.sub(c))) > 0) return 0; // p is on the right side of (b-a)
             
             if(singleSide && normal.dot(ray.origin) > 0) return 0; // looking from opposite side
         }
