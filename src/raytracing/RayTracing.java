@@ -21,7 +21,7 @@ public class RayTracing {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws IOException {
-        Painture p = new Painture(new Scene1());
+        Painture p = new Painture(new Scene2());
         System.out.println("generating thumbnail...");
         p.createImage();
        
@@ -29,10 +29,18 @@ public class RayTracing {
         mw.displayImage(p.buffer);
         mw.setVisible(true);
         
+        p.setDimensions(640, 480, 1);
+        p.tracer.sampler = new Sampler.Regular(2);
+        p.createImage();
+        mw.displayImage(p.buffer);
+        
+        p.setDimensions(1280, 960, 0.5);
+        p.createImage();
+        mw.displayImage(p.buffer);
+        
         System.out.println("generating image...");
         p.setDimensions(1280, 960, 0.5);
-        p.setDimensions(640, 480, 1);
-        p.tracer.sampler = new Sampler.Jittered(8);
+        p.tracer.sampler = new Sampler.Jittered(4);
         p.createImage();
         mw.displayImage(p.buffer);
         

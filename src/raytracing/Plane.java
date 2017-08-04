@@ -16,14 +16,15 @@ public class Plane extends GeometricObject{
     Plane(Point _point, Normal _normal, Shade _shade){
         point = new Point(_point);
         normal = new Normal(_normal);
-        shade = new Shade(_shade);
+        shade = (_shade != null)?new Shade(_shade):null;
     }
     
     Plane(Point _point, Normal _normal, Shade _shade, MaterialType _type){
         point = new Point(_point);
         normal = new Normal(_normal);
         shade = new Shade(_shade);
-        type = (_type == MaterialType.ReflectionAndRefraction)?MaterialType.Reflection:_type;
+        type = _type;
+        if(_type == MaterialType.ReflectionAndRefraction) ior = 1.2;
     }
 
     @Override
