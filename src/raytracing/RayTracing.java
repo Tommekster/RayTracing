@@ -22,7 +22,7 @@ public class RayTracing {
     public static void main(String[] args) throws IOException {
         Painture p = new Painture(new Scene3());
         System.out.println("generating thumbnail...");
-        p.setDimensions(160, 120, 4);
+        //p.setDimensions(160, 120, 4);
         p.createImage();
        
         MainWindow mw = new MainWindow();
@@ -33,10 +33,10 @@ public class RayTracing {
         p.tracer.sampler = new Sampler.Regular(2);
         p.createImage();
         mw.displayImage(p.buffer);
-        p.saveFile("image.png");
+        //p.saveFile("image.png");
         
         p.setDimensions(1280, 960, 0.5);
-        //p.createImage();
+        p.createImage();
         mw.displayImage(p.buffer);
         
         if(false) {

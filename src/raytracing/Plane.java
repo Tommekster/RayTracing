@@ -47,4 +47,8 @@ public class Plane extends GeometricObject{
     Normal getPointNormal(Point p) {
         return normal;
     }
+    
+    /*static class Finite {
+        
+    }*/
 }

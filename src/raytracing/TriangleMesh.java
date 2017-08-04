@@ -22,11 +22,13 @@ public class TriangleMesh extends GeometricObject{
     Point [] vertices;
     int [] trgVertInd;
     Triangle [] triangles; 
+    BoundingBox boundingBox;
 
     public TriangleMesh(Point [] _vertices, int [] faceIndex, int [] vertexIndex, Shade _shade) {
         vertices = _vertices;
         shade = _shade;
         int nPolys = faceIndex.length;
+        boundingBox = new BoundingBox(vertices, null);
         
         // finds how many triangles will be created 
         for(int faceVert : faceIndex){ // for each face
@@ -59,12 +61,14 @@ public class TriangleMesh extends GeometricObject{
     Object [] hitTriangle(Ray ray) {
         Triangle triangle = null;
         Double t_near = new Double(0); 
-        for(int i = 0; i < nTriang; i++) {
-            double t = triangles[i].hit(ray);
-            if(t == 0) continue;
-            if(triangle == null || t < t_near) {
-                t_near = t;
-                triangle = triangles[i];
+        if(boundingBox.hit(ray) > RayTracing.MINIMAL_VALUE){
+            for(int i = 0; i < nTriang; i++) {
+                double t = triangles[i].hit(ray);
+                if(t == 0) continue;
+                if(triangle == null || t < t_near) {
+                    t_near = t;
+                    triangle = triangles[i];
+                }
             }
         }
         return new Object [] {t_near,triangle};

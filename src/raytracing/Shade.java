@@ -30,9 +30,13 @@ public class Shade {
         b = _b;
     }
     Shade(Shade s){
-        r = s.r;
-        g = s.g;
-        b = s.b;
+        if(s != null){
+            r = s.r;
+            g = s.g;
+            b = s.b;
+        } else {
+            r = 0; g = 0; b = 0;
+        }
     }
     
     void add(Shade s){

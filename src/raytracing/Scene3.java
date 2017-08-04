@@ -29,6 +29,7 @@ public class Scene3 extends Scene {
                 objects.add(cube);
                 cube.type = GeometricObject.MaterialType.Diffuse;
                 cube.ior = 1.9;
+                //objects.add(new BoundingBox(cube.vertices, cube.shade));
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
