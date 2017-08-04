@@ -30,7 +30,7 @@ public class Painture {
     public Painture(Scene s) {
         scene = s;
         sampler = new Sampler.Regular(1);
-        projection = new Projection.Perspective(height,new Point(-100, 200, 200), new Point(0, 0, 0), 45);
+        projection = new Projection.Perspective(height,new Point(-100, 100, 200), new Point(0, 0, 0), 45);
         tracer = new Tracer(scene, sampler, projection, width, height, scale);
     }
     public Painture(Scene s, Sampler _sampler) {

@@ -14,6 +14,7 @@ public class Hit {
     Point point;
     Ray ray;
     Normal normal;
+    Triangle triangle;
     double distance;
     
     Hit(GeometricObject o, Ray ray, double t){
@@ -22,6 +23,15 @@ public class Hit {
         normal = o.getPointNormal(point);
         this.ray = ray;
         distance = t;
+    }
+    
+    Hit(GeometricObject o, Ray ray, double t, Triangle _triangle){
+        object = o;
+        point = ray.origin.add(ray.direction.mul(t));
+        normal = (_triangle != null)? _triangle.getPointNormal(point):o.getPointNormal(point);
+        this.ray = ray;
+        distance = t;
+        triangle = (o instanceof Triangle)?(Triangle)o:_triangle;
     }
     
     Shade getShade(Scene s){
@@ -33,6 +43,7 @@ public class Hit {
         
         switch(object.type){
             case Diffuse:
+            case Texture:
                 {
                     Shade shade = new Shade();
                     for (Light light : s.lights){
@@ -49,7 +60,12 @@ public class Hit {
                         }
                         if(hit == null){
                             // not in shadow
-                            shade.add(object.shade.mul(light.color).mul(light.brightness*Math.max(0,shadowRay.direction.dot(normal))));
+                            if(triangle != null && object.type == GeometricObject.MaterialType.Texture){
+                                Point uv = triangle.getUVcoordinates(point);
+                                shade.add(triangle.getTexture(uv).mul(light.color).mul(light.brightness*Math.max(0,shadowRay.direction.dot(normal))));
+                            } else {
+                                shade.add(object.shade.mul(light.color).mul(light.brightness*Math.max(0,shadowRay.direction.dot(normal))));
+                            }
                         } 
                     }
                     shade.div(s.lights.size());

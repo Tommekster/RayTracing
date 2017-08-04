@@ -16,17 +16,18 @@ public class Scene2 extends Scene{
     public Scene2() {
         background = new Shade(0,1,1);
         lights.clear();
-        lights.add(new Light.Spherical(new Point(150,500,200),new Shade(0xff0000),2));
-        lights.add(new Light.Spherical(new Point(-150,500,20),new Shade(0x00ffFF),2));
+        lights.add(new Light.Spherical(new Point(150,500,200),new Shade(0xffffff),2));
+        lights.add(new Light.Spherical(new Point(-150,500,20),new Shade(0xffffFF),2));
         
         // a mirror triangle
         objects.add(new Triangle(new Point(-200, -100, -550), 
                 new Point(50, 150, -600), 
                 new Point(-250, 250, -550), 
-                new Shade(0x80b300),GeometricObject.MaterialType.Reflection));
+                new Shade(0x80b300),GeometricObject.MaterialType.Texture));
         
         // L object
         TriangleMesh lObj = TriangleMesh.generateLObject(new Shade(1,0,0));
+        lObj.type = GeometricObject.MaterialType.Texture;
         /*Color [] colors = {Color.CYAN, Color.ORANGE, Color.GREEN, Color.MAGENTA};
         int ic = 0;
         for(Triangle triangle : lObj.triangles){

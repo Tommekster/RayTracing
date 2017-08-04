@@ -11,8 +11,10 @@ package raytracing;
  */
 public class Triangle extends Plane {
     Point a,b,c;
+    double area;
     Vector ba, cb, ac;
     boolean singleSide = false;
+    static Shade [] colors = {new Shade(0xff0000), new Shade(0x00ff00), new Shade(0x0000ff)};
     
     public Triangle(Point a, Point b, Point c, Shade _shade) {
         super(a, new Normal(b.sub(a).cross(c.sub(a))), _shade);
@@ -22,9 +24,10 @@ public class Triangle extends Plane {
         ba = b.sub(a);
         cb = c.sub(b);
         ac = a.sub(c);
+        area = ba.cross(c.sub(a)).getMagnitude()/2;
     }
     
-    public Triangle(Point a, Point b, Point c, Shade _shade, MaterialType _type) {
+    Triangle(Point a, Point b, Point c, Shade _shade, MaterialType _type) {
         this(a,b,c,_shade);
         type = _type;
         if(_type == MaterialType.ReflectionAndRefraction) ior = 1.2;
@@ -47,5 +50,20 @@ public class Triangle extends Plane {
         return t;
     }
     
+    Point getUVcoordinates(Point p){
+        double u = cb.cross(p.sub(b)).getMagnitude()/2/area;
+        double v = ac.cross(p.sub(c)).getMagnitude()/2/area;
+        
+        return new Point(u,v,1);
+    }
     
+    @Override
+    Shade getTexture(Point uv){
+        // u * triColor[0] + v * triColor[1] + (1 - u - v) * triColor[2]
+        //System.out.println("["+uv.x+","+uv.y+"]");
+        Shade tex = colors[0].mul(uv.x);
+        tex.add(colors[1].mul(uv.y));
+        tex.add(colors[2].mul(1 - uv.x - uv.y));
+        return tex;
+    }
 }

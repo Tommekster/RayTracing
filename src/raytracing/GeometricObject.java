@@ -21,8 +21,11 @@ public abstract class GeometricObject {
         if(t > RayTracing.MINIMAL_VALUE) return t;
         else return 0;
     }
+    Shade getTexture(Point uv){
+        return shade;
+    }
     
     enum MaterialType{
-        Diffuse, Reflection, ReflectionAndRefraction
+        Texture, Diffuse, Reflection, ReflectionAndRefraction
     }
 }

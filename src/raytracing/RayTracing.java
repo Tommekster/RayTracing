@@ -5,7 +5,6 @@
  */
 package raytracing;
 
-import com.sun.java.swing.plaf.windows.resources.windows;
 import java.io.IOException;
 
 /**
@@ -38,14 +37,16 @@ public class RayTracing {
         p.createImage();
         mw.displayImage(p.buffer);
         
-        System.out.println("generating image...");
-        p.setDimensions(1280, 960, 0.5);
-        p.tracer.sampler = new Sampler.Jittered(4);
-        p.createImage();
-        mw.displayImage(p.buffer);
-        
-        System.out.println("saving to image.png");
-        p.saveFile("image.png");
+        if(false) {
+            System.out.println("generating image...");
+            p.setDimensions(1280, 960, 0.5);
+            p.tracer.sampler = new Sampler.Jittered(4);
+            p.createImage();
+            mw.displayImage(p.buffer);
+
+            System.out.println("saving to image.png");
+            p.saveFile("image.png");
+        }
     }
     
 }
