@@ -25,9 +25,16 @@ public abstract class Scene {
     
     Hit hitObject(Ray ray, boolean shadowRay){
         GeometricObject hitObj = null;
+        Triangle triangle = null;
         double dist = 0;
         for(GeometricObject obj : objects){
-            double t = obj.hit(ray);
+            double t;
+            if(obj instanceof TriangleMesh) {
+                Object [] tHit = ((TriangleMesh)obj).hitTriangle(ray);
+                t = (Double) tHit[0];
+                triangle = (Triangle) tHit[1];
+            }
+            t = obj.hit(ray);
             if(t > 0){
                 if(hitObj == null  || (dist > t)){
                     hitObj = obj;
@@ -36,6 +43,6 @@ public abstract class Scene {
             }
         }
         
-        return (hitObj == null)?null:new Hit(hitObj,ray,dist);
+        return (hitObj == null)?null:new Hit(hitObj,ray,dist,triangle);
     }
 }

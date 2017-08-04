@@ -49,11 +49,10 @@ public class TriangleMesh extends GeometricObject{
             k += faceIndex[face];
         }
     }
-
-    @Override
-    double hit(Ray ray) {
+    
+    Object [] hitTriangle(Ray ray) {
         Triangle triangle = null;
-        double t_near = 0; 
+        Double t_near = new Double(0); 
         for(int i = 0; i < nTriang; i++) {
             double t = triangles[i].hit(ray);
             if(t == 0) continue;
@@ -62,7 +61,12 @@ public class TriangleMesh extends GeometricObject{
                 triangle = triangles[i];
             }
         }
-        return t_near;
+        return new Object [] {t_near,triangle};
+    }
+
+    @Override
+    double hit(Ray ray) {
+        return (Double) hitTriangle(ray)[0];
     }
 
     @Override
