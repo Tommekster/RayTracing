@@ -5,6 +5,12 @@
  */
 package raytracing;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+
 /**
  *
  * @author zikmundt
@@ -86,4 +92,73 @@ public class TriangleMesh extends GeometricObject{
             new int[] {4,4}, new int[] {0, 1, 2, 3, 0, 3, 4, 5}, _shade);
     }
     
+    static TriangleMesh loadGeoFile(String filename, Shade _shade) throws FileNotFoundException, IOException{
+        File file = new File(filename);
+        int numFaces = 0;
+        int [] faceIndex = null;
+        int numVertInd = 0;
+        int [] vertexIndex = null;
+        Point [] vertices = null;
+        Point [] uvs = null;
+        
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String line;
+            int nl = 0;
+            while ((line = br.readLine()) != null) {
+                int i = 0;
+                String [] spl = line.split("\\s+");
+                switch(nl){
+                    case 0: // number of faces
+                        numFaces = new Integer(spl[0]);
+                        break;
+                    case 1: // faces index
+                        faceIndex = new int [spl.length];
+                        for(String s : spl){
+                            int n = new Integer(s);
+                            faceIndex[i++] = n;
+                            numVertInd += n;
+                        }
+                        break;
+                    case 2: // vertex index
+                        vertexIndex = new int [numVertInd];
+                        for(String s : spl){
+                            vertexIndex[i++] = new Integer(s);
+                        }
+                        break;
+                    case 3: // vertex positions
+                        {
+                            vertices = new Point[spl.length/3];
+                            for(int j = 0; j < spl.length; j += 3){
+                                vertices[i++] = new Point(
+                                        new Double(spl[j]),
+                                        new Double(spl[j+1]),
+                                        new Double(spl[j+2])
+                                );
+                            }
+                        }
+                        break;
+                    case 4: // normals
+                        break;
+                    case 5: // uvs
+                        {
+                            uvs = new Point[spl.length/2];
+                            for(int j = 0; j < spl.length; j += 2){
+                                uvs[i++] = new Point(
+                                        new Double(spl[j]),
+                                        new Double(spl[j+1]),
+                                        0
+                                );
+                            }
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                nl++;
+            }
+        }
+        
+        if(faceIndex == null || vertexIndex == null || vertices == null) return null;
+        return new TriangleMesh(vertices, faceIndex, vertexIndex, _shade);
+    }
 }

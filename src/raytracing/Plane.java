@@ -26,6 +26,14 @@ public class Plane extends GeometricObject{
         type = _type;
         if(_type == MaterialType.ReflectionAndRefraction) ior = 1.2;
     }
+    
+    Plane(Point _point, Normal _normal, Shade _shade, MaterialType _type, double _ior){
+        point = new Point(_point);
+        normal = new Normal(_normal);
+        shade = new Shade(_shade);
+        type = _type;
+        ior = _ior;
+    }
 
     @Override
     double hit(Ray ray) {

@@ -5,8 +5,6 @@
  */
 package raytracing;
 
-import java.awt.Color;
-
 /**
  *
  * @author zikmundt
@@ -31,15 +29,7 @@ public class Scene2 extends Scene{
         // L object
         TriangleMesh lObj = TriangleMesh.generateLObject(new Shade(1,0,0));
         lObj.type = GeometricObject.MaterialType.Texture;
-        /*Color [] colors = {Color.CYAN, Color.ORANGE, Color.GREEN, Color.MAGENTA};
-        int ic = 0;
-        for(Triangle triangle : lObj.triangles){
-            triangle.shade = new Shade(colors[ic++]);
-            System.out.println("["+triangle.a.x+" "+triangle.a.y+" "+triangle.a.z+"], ["
-                    +triangle.b.x+" "+triangle.b.y+" "+triangle.b.z+"], ["
-                    +triangle.c.x+" "+triangle.c.y+" "+triangle.c.z+"]");
-            objects.add(triangle);
-        }*/
+        
         objects.add(lObj);
         Point [] points = {
                 new Point(-50,-50,50),

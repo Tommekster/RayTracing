@@ -45,4 +45,8 @@ public abstract class Scene {
         
         return (hitObj == null)?null:new Hit(hitObj,ray,dist,triangle);
     }
+    
+    Projection getProjection(int height){
+        return new Projection.Perspective(height,new Point(-50, 100, 300), new Point(0, 0, 0), 45);
+    }
 }

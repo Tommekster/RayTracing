@@ -30,19 +30,19 @@ public class Painture {
     public Painture(Scene s) {
         scene = s;
         sampler = new Sampler.Regular(1);
-        projection = new Projection.Perspective(height,new Point(-100, 100, 200), new Point(0, 0, 0), 45);
+        projection = s.getProjection(height);
         tracer = new Tracer(scene, sampler, projection, width, height, scale);
     }
     public Painture(Scene s, Sampler _sampler) {
         scene = s;
         sampler = _sampler;
-        projection = new Projection.Perspective(height,new Point(-50, 100, 300), new Point(0, 0, 0), 45);
+        projection = s.getProjection(height);
         tracer = new Tracer(scene, sampler, projection, width, height, scale);
     }
     public Painture(int width, int height, double scale, Scene s, Sampler _sampler) {
         scene = s;
         sampler = _sampler;
-        projection = new Projection.Perspective(height,new Point(-50, 200, 300), new Point(0, 0, 0), 45);
+        projection = s.getProjection(height);
         tracer = new Tracer(scene, sampler, projection, width, height, scale);
         this.width = width;
         this.height = height;
