@@ -45,31 +45,7 @@ public class Hit {
             case Diffuse:
             case Texture:
                 {
-                    Shade shade = new Shade();
-                    for (Light light : s.lights){
-                        Ray shadowRay = new Ray(point, light.getDirection(point).mul(-1));
-                        shadowRay.direction.normalize();
-                        normal.normalize();
-
-                        Hit hit = s.hitObject(shadowRay);
-                        if(hit != null && light instanceof Light.Spherical){
-                            Point lp = ((Light.Spherical)light).position;
-                            Point hit_lp = point.sub(lp);
-                            if(hit_lp.dot(hit_lp) < hit.distance*hit.distance)
-                                hit = null;
-                        }
-                        if(hit == null){
-                            // not in shadow
-                            if(triangle != null && object.type == GeometricObject.MaterialType.Texture){
-                                Point uv = triangle.getUVcoordinates(point);
-                                shade.add(triangle.getTexture(uv).mul(light.color).mul(light.brightness*Math.max(0,shadowRay.direction.dot(normal))));
-                            } else {
-                                shade.add(object.shade.mul(light.color).mul(light.brightness*Math.max(0,shadowRay.direction.dot(normal))));
-                            }
-                        } 
-                    }
-                    shade.div(s.lights.size());
-                    shade.norm();
+                    Shade shade = getDiffuseShade(s);
                     return shade;
                 }
                 
@@ -82,6 +58,7 @@ public class Hit {
                 break;
                 
             case ReflectionAndRefraction:
+            case Glossy:
                 {
                     Shade shade = new Shade();
                     double kr = getFresnelIndex();
@@ -89,10 +66,15 @@ public class Hit {
                     //if(kr == 1) return new Shade(1,0,0);
                     //return new Shade(0,0,kr);
                     if(kr < 1) { // it is not internal reflection
-                        Ray refractedRay = getRefractedRay();
-                        Hit refractedHit = s.hitObject(refractedRay);
-                        if(refractedHit != null) {
-                            shade.add(refractedHit.getShade(s, depth+1).mul(0.99*(1-kr)));
+                        if(object.type == GeometricObject.MaterialType.Glossy){
+                            Shade dShade = getDiffuseShade(s);
+                            shade.add(dShade.mul(1-kr));
+                        } else {
+                            Ray refractedRay = getRefractedRay();
+                            Hit refractedHit = s.hitObject(refractedRay);
+                            if(refractedHit != null) {
+                                shade.add(refractedHit.getShade(s, depth+1).mul(0.99*(1-kr)));
+                            }
                         }
                     }
                     Ray reflectedRay = getReflectedRay();
@@ -106,6 +88,35 @@ public class Hit {
                 }
         }
         return new Shade(s.background);
+    }
+
+    Shade getDiffuseShade(Scene s) {
+        Shade shade = new Shade();
+        for (Light light : s.lights){
+            Ray shadowRay = new Ray(point, light.getDirection(point).mul(-1));
+            shadowRay.direction.normalize();
+            normal.normalize();
+            
+            Hit hit = s.hitObject(shadowRay);
+            if(hit != null && light instanceof Light.Spherical){
+                Point lp = ((Light.Spherical)light).position;
+                Point hit_lp = point.sub(lp);
+                if(hit_lp.dot(hit_lp) < hit.distance*hit.distance)
+                    hit = null;
+            }
+            if(hit == null){
+                // not in shadow
+                if(triangle != null && object.type == GeometricObject.MaterialType.Texture){
+                    Point uv = triangle.getUVcoordinates(point);
+                    shade.add(triangle.getTexture(uv).mul(light.color).mul(light.brightness*Math.max(0,shadowRay.direction.dot(normal))));
+                } else {
+                    shade.add(object.shade.mul(light.color).mul(light.brightness*Math.max(0,shadowRay.direction.dot(normal))));
+                }
+            }
+        }
+        shade.div(s.lights.size());
+        shade.norm();
+        return shade;
     }
 
     Ray getReflectedRay(){

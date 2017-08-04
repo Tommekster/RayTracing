@@ -43,7 +43,6 @@ public class Sphere extends GeometricObject{
         double discriminant = b*b -4*a*c;
         if(discriminant < 0) return 0;
         else {
-            //return retVal((-b +((b>0)?(-1):1)*Math.sqrt(discriminant))/2/a);
             return retVal((-b - Math.sqrt(discriminant))/2/a);
         }
     }

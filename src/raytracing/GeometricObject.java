@@ -26,6 +26,6 @@ public abstract class GeometricObject {
     }
     
     enum MaterialType{
-        Texture, Diffuse, Reflection, ReflectionAndRefraction
+        Texture, Diffuse, Reflection, ReflectionAndRefraction, Glossy
     }
 }
