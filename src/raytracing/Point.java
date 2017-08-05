@@ -36,4 +36,14 @@ public class Point {
     double dot(Point v){
         return x * v.x + y * v.y + z * v.z;
     }
+    void set(Point p){
+        x = p.x;
+        y = p.y;
+        z = p.z;
+    }
+    
+    @Override
+    public String toString(){
+        return "["+x+","+y+","+z+"]";
+    }
 }

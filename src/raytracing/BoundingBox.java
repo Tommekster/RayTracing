@@ -19,20 +19,40 @@ public class BoundingBox extends GeometricObject{
         max = new Point(points[0]);
         
         for(Point p : points) {
-            if(p.x < min.x) min.x = p.x;
-            if(p.y < min.y) min.y = p.y;
-            if(p.z < min.z) min.z = p.z;
-            if(p.x > max.x) max.x = p.x;
-            if(p.y > max.y) max.y = p.y;
-            if(p.z > max.z) max.z = p.z;
+            boundPoint(p);
         }
         
-        Point mid = new Point(min);
-        mid.add(max);
-        this.mid = mid.mul(0.5);
+        this.mid = getMidpoint();
+    }
+
+    public BoundingBox(Triangle [] triangles, Shade _shade) {
+        shade = (_shade != null)?new Shade(_shade):null;
+        min = new Point(triangles[0].point);
+        max = new Point(triangles[0].point);
+        
+        for(Triangle t : triangles) {
+            boundPoint(t.point);
+            boundPoint(t.b);
+            boundPoint(t.c);
+        }
+        
+        this.mid = getMidpoint();
     }
     
+    final void boundPoint(Point p){
+        if(p.x < min.x) min.x = p.x;
+        if(p.y < min.y) min.y = p.y;
+        if(p.z < min.z) min.z = p.z;
+        if(p.x > max.x) max.x = p.x;
+        if(p.y > max.y) max.y = p.y;
+        if(p.z > max.z) max.z = p.z;
+    }
     
+    final Point getMidpoint(){
+        Point midp = new Point(min);
+        midp.add(max);
+        return midp.mul(0.5);
+    }
     
     @Override
     double hit(Ray ray) {

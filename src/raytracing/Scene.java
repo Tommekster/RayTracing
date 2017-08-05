@@ -18,6 +18,7 @@ public abstract class Scene {
     {
         lights.add(new Light.Distant());
     }
+    boolean shadows = true;
     
     Hit hitObject(Ray ray){
         return hitObject(ray,false);
@@ -25,7 +26,7 @@ public abstract class Scene {
     
     Hit hitObject(Ray ray, boolean shadowRay){
         GeometricObject hitObj = null;
-        Triangle triangle = null;
+        Triangle hitTriangle = null, triangle = null;
         double dist = 0;
         for(GeometricObject obj : objects){
             double t;
@@ -35,15 +36,16 @@ public abstract class Scene {
                 triangle = (Triangle) tHit[1];
             }
             t = obj.hit(ray);
-            if(t > 0){
+            if(t > RayTracing.MINIMAL_VALUE){
                 if(hitObj == null  || (dist > t)){
                     hitObj = obj;
                     dist = t;
+                    hitTriangle = triangle;
                 }
             }
         }
         
-        return (hitObj == null)?null:new Hit(hitObj,ray,dist,triangle);
+        return (hitObj == null)?null:new Hit(hitObj,ray,dist,(hitObj instanceof TriangleMesh)?hitTriangle:null);
     }
     
     Projection getProjection(int height){

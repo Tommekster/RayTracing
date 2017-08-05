@@ -10,7 +10,7 @@ package raytracing;
  * @author zikmundt
  */
 public class Triangle extends Plane {
-    Point a,b,c;
+    Point b,c;
     double area;
     Vector ba, cb, ac;
     boolean singleSide = false;
@@ -18,13 +18,17 @@ public class Triangle extends Plane {
     
     public Triangle(Point a, Point b, Point c, Shade _shade) {
         super(a, new Normal(b.sub(a).cross(c.sub(a))), _shade);
-        this.a = a;
+        //this.a = a;
         this.b = b;
         this.c = c;
-        ba = b.sub(a);
+        computeEdges();
+    }
+
+    final void computeEdges() {
+        ba = b.sub(point);
         cb = c.sub(b);
-        ac = a.sub(c);
-        area = ba.cross(c.sub(a)).getMagnitude()/2;
+        ac = point.sub(c);
+        area = ba.cross(c.sub(point)).getMagnitude() / 2;
     }
     
     Triangle(Point a, Point b, Point c, Shade _shade, MaterialType _type) {
@@ -41,7 +45,7 @@ public class Triangle extends Plane {
             Point p = ray.origin.add(ray.direction.mul(t));
             
             // 2. is P inside triangle?
-            if(normal.dot(ba.cross(p.sub(a))) < 0) return 0; // p is on the right side of (b-a)
+            if(normal.dot(ba.cross(p.sub(point))) < 0) return 0; // p is on the right side of (b-a)
             if(normal.dot(cb.cross(p.sub(b))) < 0) return 0; // p is on the right side of (b-a)
             if(normal.dot(ac.cross(p.sub(c))) < 0) return 0; // p is on the right side of (b-a)
             
@@ -65,5 +69,21 @@ public class Triangle extends Plane {
         tex.add(colors[1].mul(uv.y));
         tex.add(colors[2].mul(1 - uv.x - uv.y));
         return tex;
+    }
+    
+    Triangle transform(TransformMatrix m){
+        point = m.transform(point);
+        b = m.transform(b);
+        c = m.transform(c);
+        
+        computeEdges();
+        
+        normal = new Normal(b.sub(point).cross(c.sub(point)));
+        
+        return this;
+    }
+    
+    public String toString(){
+        return point.toString() + " " + b.toString() + " " + c.toString();
     }
 }

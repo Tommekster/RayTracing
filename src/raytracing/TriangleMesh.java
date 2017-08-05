@@ -19,15 +19,14 @@ public class TriangleMesh extends GeometricObject{
     
     Normal [] normals;
     int nTriang = 0;
-    Point [] vertices;
+    //Point [] vertices;
     int [] trgVertInd;
     Triangle [] triangles; 
     BoundingBox boundingBox;
 
-    public TriangleMesh(Point [] _vertices, int [] faceIndex, int [] vertexIndex, Shade _shade) {
-        vertices = _vertices;
+    public TriangleMesh(Point [] vertices, int [] faceIndex, int [] vertexIndex, Shade _shade) {
+        //this.vertices = vertices;
         shade = _shade;
-        int nPolys = faceIndex.length;
         boundingBox = new BoundingBox(vertices, null);
         
         // finds how many triangles will be created 
@@ -43,7 +42,7 @@ public class TriangleMesh extends GeometricObject{
         int k = 0;
         int l = 0;
         int t = 0;
-        for(int face = 0; face < nPolys; face++){
+        for(int face = 0; face < faceIndex.length; face++){
             for(int j = 0; j < faceIndex[face] - 2; j++){
                 trgVertInd[l] = vertexIndex[k]; // v0
                 trgVertInd[l + 1] = vertexIndex[k + j + 1]; // v_{j+1}
@@ -82,6 +81,14 @@ public class TriangleMesh extends GeometricObject{
     @Override
     Normal getPointNormal(Point p) {
         return new Normal(1,1,0);
+    }
+    
+    TriangleMesh transform(TransformMatrix m){
+        for(Triangle t : triangles){
+            t.transform(m);
+        }
+        boundingBox = new BoundingBox(triangles, null);
+        return this;
     }
     
     static TriangleMesh generateLObject(Shade _shade) {

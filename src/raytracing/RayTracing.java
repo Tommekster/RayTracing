@@ -36,7 +36,7 @@ public class RayTracing {
         //p.saveFile("image.png");
         
         p.setDimensions(1280, 960, 0.5);
-        p.createImage();
+        //p.createImage();
         mw.displayImage(p.buffer);
         
         if(false) {
