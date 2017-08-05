@@ -39,12 +39,12 @@ public class Scene3 extends Scene {
         }
         
         try {
-            TriangleMesh cube = TriangleMesh.loadGeoFile("cow.geo", new Shade(0x00ff00));
+            TriangleMesh cube = TriangleMesh.loadGeoFile("cow.geo", new Shade(0xffffff));
             if(cube != null){
                 objects.add(cube);
                 cube.type = GeometricObject.MaterialType.Diffuse;
                 cube.ior = 1.9;
-                cube.transform(new TransformMatrix().setHeight(0.3));
+                cube.transform(new TransformMatrix().setScale(2).setRoll(-45).setYaw(30));
                 //objects.add(new BoundingBox(cube.vertices, cube.shade));
             }
         } catch (Exception e) {
@@ -56,10 +56,10 @@ public class Scene3 extends Scene {
                 new Point(0,2,-2), 
                 new Point(0,0,-2),
                 new Shade(1,0,0));
-        System.out.println(triangle);
+        
         triangle.transform(new TransformMatrix().setHeight(2).setPosition(new Point(-3,0,3)));
-        System.out.println(triangle);
-        //objects.add(triangle);
+        
+        objects.add(triangle);
         
         // zoom
         //objects.add(new Sphere(new Point(-25,50,150), 10, new Shade(1,0,0), GeometricObject.MaterialType.ReflectionAndRefraction, 1.7));
@@ -73,6 +73,6 @@ public class Scene3 extends Scene {
     
     @Override
     Projection getProjection(int height){
-        return new Projection.Perspective(height,new Point(-5, 4, 5), new Point(0, 0, 0), 45);
+        return new Projection.Perspective(height,new Point(-25, 20, 25), new Point(0, 0, 0), 45);
     }
 }

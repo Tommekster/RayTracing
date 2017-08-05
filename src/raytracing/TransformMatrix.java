@@ -5,13 +5,17 @@
  */
 package raytracing;
 
+import static java.lang.Math.sin;
+import static java.lang.Math.cos;
+import static java.lang.Math.toRadians;
+
 /**
  *
  * @author zikmundt
  */
 public class TransformMatrix { // for homogenous points
     double width = 1, height = 1, depth = 1;
-    double pitch = 0, roll = 0;
+    double yaw = 0, roll = 0;
     Point position = new Point();
 
     public TransformMatrix() {
@@ -37,6 +41,13 @@ public class TransformMatrix { // for homogenous points
         return this;
     }
     
+    TransformMatrix setScale(double d){
+        width = d;
+        height = d;
+        depth = d;
+        return this;
+    }
+    
     TransformMatrix setScale(double w, double h, double d){
         width = w;
         height = h;
@@ -45,26 +56,40 @@ public class TransformMatrix { // for homogenous points
     }
     
     TransformMatrix setRotation(double p, double r){
-        pitch = p;
-        roll = r;
+        yaw = toRadians(p);
+        roll = toRadians(r);
         return this;
     }
     
-    TransformMatrix setPitch(double d){
-        pitch = d;
+    TransformMatrix setYaw(double d){
+        yaw = toRadians(d);
         return this;
     }
     
     TransformMatrix setRoll(double d){
-        roll = d;
+        roll = toRadians(d);
         return this;
     }
     
     double [] getMatrix(){
+        if(yaw == 0 && roll == 0)
+            return new double [] {
+                width, 0, 0, 
+                0, height, 0, 
+                0, 0, depth
+            };
+        
+        if(roll == 0)
+            return new double [] {
+                width*cos(yaw), -height*sin(yaw), 0, 
+                width*sin(yaw), height*cos(yaw), 0, 
+                0, 0, depth
+            };
+        
         return new double [] {
-            width, 0, 0, 
-            0, height, 0, 
-            0, 0, depth
+            width*cos(yaw)*cos(roll), -height*sin(yaw), -depth*cos(yaw)*sin(roll), 
+            width*sin(yaw)*cos(roll), height*cos(yaw), -depth*sin(yaw)*sin(roll), 
+            width*sin(roll), 0, depth*cos(roll)
         };
     }
     
