@@ -27,6 +27,10 @@ public class TriangleMesh extends GeometricObject{
     }
     
     public TriangleMesh(Point [] vertices, Normal [] normals, int [] faceIndex, int [] vertexIndex, Shade _shade) {
+        this(vertices, null, faceIndex, vertexIndex, null, _shade);
+    }
+        
+    public TriangleMesh(Point [] vertices, Normal [] normals, int [] faceIndex, int [] vertexIndex, Point [] uvs, Shade _shade) {
         //this.vertices = vertices;
         shade = _shade;
         boundingBox = new BoundingBox(vertices, null);
@@ -58,6 +62,13 @@ public class TriangleMesh extends GeometricObject{
                         normals[k], 
                         normals[k+j+1], 
                         normals[k+j+2]
+                    };
+                }
+                if(uvs != null){
+                    triangle.uvs = new Point [] {
+                        uvs[k],
+                        uvs[k+j+1],
+                        uvs[k+j+2]
                     };
                 }
                 triangles[t++] = triangle;
@@ -100,6 +111,12 @@ public class TriangleMesh extends GeometricObject{
         }
         boundingBox = new BoundingBox(triangles, null);
         return this;
+    }
+    
+    void setTexture(Texture texture){
+        for(Triangle t : triangles){
+            t.texture = texture;
+        }
     }
     
     static TriangleMesh generateLObject(Shade _shade) {
@@ -192,6 +209,6 @@ public class TriangleMesh extends GeometricObject{
         }
         
         if(faceIndex == null || vertexIndex == null || vertices == null) return null;
-        return new TriangleMesh(vertices, normals, faceIndex, vertexIndex, _shade);
+        return new TriangleMesh(vertices, normals, faceIndex, vertexIndex, uvs, _shade);
     }
 }

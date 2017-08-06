@@ -98,7 +98,7 @@ public class Hit {
             normal.normalize();
             
             // shadow ray
-            Hit hit = (s.shadows)?s.hitObject(shadowRay):null;
+            Hit hit = (s.shadows)?s.hitObject(shadowRay, true):null;
             if(hit != null && light instanceof Light.Spherical){
                 Point lp = ((Light.Spherical)light).position;
                 Point hit_lp = point.sub(lp);

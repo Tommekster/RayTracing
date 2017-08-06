@@ -14,7 +14,8 @@ public class Scene3 extends Scene {
         background = new Shade(0,1,1);
         shadows = false;
         lights.clear();
-        lights.add(new Light.Distant(new Normal(3,-10,-2)));
+        lights.add(new Light.Distant(new Normal(-5,-10,0)));
+        lights.add(new Light.Distant(new Normal(5,-10,0)));
         //lights.add(new Light.Spherical(new Point(-150,500,-200),new Shade(0xffffff),2));
         //lights.add(new Light.Spherical(new Point(-150,500,20),new Shade(0xffffFF),2));
         
@@ -27,12 +28,16 @@ public class Scene3 extends Scene {
         // an object from file
         
         try {
-            TriangleMesh cube2 = TriangleMesh.loadGeoFile("cube2.geo", new Shade(0xff0000));
+            TriangleMesh cube2 = TriangleMesh.loadGeoFile("cube3.geo", new Shade(0xff0000));
             if(cube2 != null){
                 objects.add(cube2);
-                cube2.type = GeometricObject.MaterialType.Diffuse;
+                cube2.type = GeometricObject.MaterialType.Texture;
                 cube2.ior = 1.9;
-                cube2.transform(new TransformMatrix().setScale(5).setPosition(new Point(-5,5,3)));
+                cube2.transform(new TransformMatrix().setPosition(new Point(0,3,0)).setScale(2).setRotation(200, 0, 0));
+                for(Triangle t : cube2.triangles){
+                    t.vertNormals = null;
+                }
+                cube2.setTexture(new Texture("texture.png"));
             }
         } catch (Exception e) {
             System.err.println(e.getMessage());
@@ -68,11 +73,11 @@ public class Scene3 extends Scene {
         objects.add(new Plane(new Point(0,-1,0), new Normal(0, 1, 0), new Shade(0x929292)));
         
         // right wall
-        objects.add(new Plane(new Point(10,0,0), new Normal(-1, 0, 0), new Shade(0xc58a00), GeometricObject.MaterialType.Glossy, 2));
+        objects.add(new Plane(new Point(10,0,0), new Normal(-1, 0, 0), new Shade(0xc58a00), GeometricObject.MaterialType.Reflection, 2));
     }
     
     @Override
     Projection getProjection(int height){
-        return new Projection.Perspective(height,new Point(-25, 20, 25), new Point(0, 0, 0), 45);
+        return new Projection.Perspective(height,new Point(-5, 0, 5), new Point(0, 0, 0), 45);
     }
 }

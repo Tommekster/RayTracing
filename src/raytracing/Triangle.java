@@ -16,6 +16,8 @@ public class Triangle extends Plane {
     boolean singleSide = false;
     static Shade [] colors = {new Shade(0xff0000), new Shade(0x00ff00), new Shade(0x0000ff)};
     Normal [] vertNormals = null;
+    Point [] uvs = null;
+    Texture texture;
     
     public Triangle(Point a, Point b, Point c, Shade _shade) {
         super(a, new Normal(b.sub(a).cross(c.sub(a))), _shade);
@@ -64,12 +66,13 @@ public class Triangle extends Plane {
     
     @Override
     Shade getTexture(Point uv){
-        // u * triColor[0] + v * triColor[1] + (1 - u - v) * triColor[2]
-        //System.out.println("["+uv.x+","+uv.y+"]");
-        Shade tex = colors[0].mul(uv.x);
-        tex.add(colors[1].mul(uv.y));
-        tex.add(colors[2].mul(1 - uv.x - uv.y));
-        return tex;
+        if(texture == null || uvs == null){
+            Shade tex = colors[0].mul(uv.x);
+            tex.add(colors[1].mul(uv.y));
+            tex.add(colors[2].mul(1 - uv.x - uv.y));
+            return tex;
+        }
+        return texture.getColor(uvs, uv);
     }
     
     @Override
