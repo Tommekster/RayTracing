@@ -26,29 +26,29 @@ public class Scene3 extends Scene {
         
         // an object from file
         
-        /*try {
+        try {
             TriangleMesh cube2 = TriangleMesh.loadGeoFile("cube2.geo", new Shade(0xff0000));
             if(cube2 != null){
                 objects.add(cube2);
                 cube2.type = GeometricObject.MaterialType.Diffuse;
                 cube2.ior = 1.9;
-                cube2.transform(new TransformMatrix().setPosition(new Point(-3,0,-3)));
+                cube2.transform(new TransformMatrix().setScale(5).setPosition(new Point(-5,5,3)));
             }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }*/
+            System.err.println(e.getMessage());
+        }
         
         try {
             TriangleMesh cube = TriangleMesh.loadGeoFile("cow.geo", new Shade(0xffffff));
             if(cube != null){
-                objects.add(cube);
+                //objects.add(cube);
                 cube.type = GeometricObject.MaterialType.Diffuse;
                 cube.ior = 1.9;
-                cube.transform(new TransformMatrix().setScale(2).setRotation(45)/*.setRotation(0, 45, 30)*/);
+                cube.transform(new TransformMatrix().setScale(2).setRotation(-15));
                 //objects.add(new BoundingBox(cube.vertices, cube.shade));
             }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
         }
         
         Triangle triangle = new Triangle(

@@ -42,6 +42,7 @@ public abstract class Scene {
                     dist = t;
                     hitTriangle = triangle;
                 }
+                if(shadowRay) break; // is in shadow
             }
         }
         

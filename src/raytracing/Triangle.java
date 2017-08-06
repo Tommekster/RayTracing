@@ -15,6 +15,7 @@ public class Triangle extends Plane {
     Vector ba, cb, ac;
     boolean singleSide = false;
     static Shade [] colors = {new Shade(0xff0000), new Shade(0x00ff00), new Shade(0x0000ff)};
+    Normal [] vertNormals = null;
     
     public Triangle(Point a, Point b, Point c, Shade _shade) {
         super(a, new Normal(b.sub(a).cross(c.sub(a))), _shade);
@@ -69,6 +70,15 @@ public class Triangle extends Plane {
         tex.add(colors[1].mul(uv.y));
         tex.add(colors[2].mul(1 - uv.x - uv.y));
         return tex;
+    }
+    
+    @Override
+    Normal getPointNormal(Point p) {
+        if(vertNormals == null) return super.getPointNormal(p);
+        Point uv = getUVcoordinates(p);
+        return new Normal(vertNormals[2].mul(1 - uv.x - uv.y)
+                .add(vertNormals[0].mul(uv.x))
+                .add(vertNormals[1].mul(uv.y)));
     }
     
     Triangle transform(TransformMatrix m){

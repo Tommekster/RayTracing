@@ -16,8 +16,6 @@ import java.io.IOException;
  * @author zikmundt
  */
 public class TriangleMesh extends GeometricObject{
-    
-    Normal [] normals;
     int nTriang = 0;
     //Point [] vertices;
     int [] trgVertInd;
@@ -25,6 +23,10 @@ public class TriangleMesh extends GeometricObject{
     BoundingBox boundingBox;
 
     public TriangleMesh(Point [] vertices, int [] faceIndex, int [] vertexIndex, Shade _shade) {
+        this(vertices, null, faceIndex, vertexIndex, _shade);
+    }
+    
+    public TriangleMesh(Point [] vertices, Normal [] normals, int [] faceIndex, int [] vertexIndex, Shade _shade) {
         //this.vertices = vertices;
         shade = _shade;
         boundingBox = new BoundingBox(vertices, null);
@@ -47,10 +49,19 @@ public class TriangleMesh extends GeometricObject{
                 trgVertInd[l] = vertexIndex[k]; // v0
                 trgVertInd[l + 1] = vertexIndex[k + j + 1]; // v_{j+1}
                 trgVertInd[l + 2] = vertexIndex[k + j + 2]; // v_{j+1}
-                triangles[t++] = new Triangle(vertices[vertexIndex[k]], 
+                Triangle triangle = new Triangle(vertices[vertexIndex[k]], 
                         vertices[vertexIndex[k+j+1]], 
                         vertices[vertexIndex[k+j+2]], 
                         null);
+                if(normals != null){
+                    triangle.vertNormals = new Normal[] {
+                        normals[k], 
+                        normals[k+j+1], 
+                        normals[k+j+2]
+                    };
+                }
+                triangles[t++] = triangle;
+                
                 l += 3;
             }
             k += faceIndex[face];
@@ -110,6 +121,7 @@ public class TriangleMesh extends GeometricObject{
         int numVertInd = 0;
         int [] vertexIndex = null;
         Point [] vertices = null;
+        Normal [] normals = null;
         Point [] uvs = null;
         
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
@@ -149,6 +161,16 @@ public class TriangleMesh extends GeometricObject{
                         }
                         break;
                     case 4: // normals
+                        {
+                            normals = new Normal[spl.length/3];
+                            for(int j = 0; j < spl.length; j += 3){
+                                normals[i++] = new Normal(
+                                        new Double(spl[j]),
+                                        new Double(spl[j+1]),
+                                        new Double(spl[j+2])
+                                );
+                            }
+                        }
                         break;
                     case 5: // uvs
                         {
@@ -170,6 +192,6 @@ public class TriangleMesh extends GeometricObject{
         }
         
         if(faceIndex == null || vertexIndex == null || vertices == null) return null;
-        return new TriangleMesh(vertices, faceIndex, vertexIndex, _shade);
+        return new TriangleMesh(vertices, normals, faceIndex, vertexIndex, _shade);
     }
 }
