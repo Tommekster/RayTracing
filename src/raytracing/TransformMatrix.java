@@ -15,8 +15,9 @@ import static java.lang.Math.toRadians;
  */
 public class TransformMatrix { // for homogenous points
     double width = 1, height = 1, depth = 1;
-    double yaw = 0, roll = 0;
+    double rotx = 0, roty = 0, rotz = 0; // rotation along axis x,y,z
     Point position = new Point();
+    double [] matrix = null;
 
     public TransformMatrix() {
     }
@@ -26,18 +27,21 @@ public class TransformMatrix { // for homogenous points
         return this;
     }
     
-    TransformMatrix setWidth(double d){
+    TransformMatrix setWidthScale(double d){
         width = d;
+        matrix = null;
         return this;
     }
     
-    TransformMatrix setHeight(double d){
+    TransformMatrix setHeightScale(double d){
         height = d;
+        matrix = null;
         return this;
     }
     
-    TransformMatrix setDepth(double d){
+    TransformMatrix setDepthScale(double d){
         depth = d;
+        matrix = null;
         return this;
     }
     
@@ -45,6 +49,7 @@ public class TransformMatrix { // for homogenous points
         width = d;
         height = d;
         depth = d;
+        matrix = null;
         return this;
     }
     
@@ -52,50 +57,80 @@ public class TransformMatrix { // for homogenous points
         width = w;
         height = h;
         depth = d;
+        matrix = null;
         return this;
     }
     
-    TransformMatrix setRotation(double p, double r){
-        yaw = toRadians(p);
-        roll = toRadians(r);
+    TransformMatrix setRotation(double rx, double ry, double rz){
+        rotx = toRadians(rx);
+        roty = toRadians(ry);
+        rotz = toRadians(rz);
+        matrix = null;
         return this;
     }
     
-    TransformMatrix setYaw(double d){
-        yaw = toRadians(d);
+    TransformMatrix setRotation(double ry){
+        roty = toRadians(ry);
+        matrix = null;
         return this;
     }
     
-    TransformMatrix setRoll(double d){
-        roll = toRadians(d);
-        return this;
-    }
-    
-    double [] getMatrix(){
-        if(yaw == 0 && roll == 0)
-            return new double [] {
-                width, 0, 0, 
-                0, height, 0, 
-                0, 0, depth
-            };
-        
-        if(roll == 0)
-            return new double [] {
-                width*cos(yaw), -height*sin(yaw), 0, 
-                width*sin(yaw), height*cos(yaw), 0, 
-                0, 0, depth
-            };
-        
-        return new double [] {
-            width*cos(yaw)*cos(roll), -height*sin(yaw), -depth*cos(yaw)*sin(roll), 
-            width*sin(yaw)*cos(roll), height*cos(yaw), -depth*sin(yaw)*sin(roll), 
-            width*sin(roll), 0, depth*cos(roll)
+    double [] getTransformMatrix(){
+        if(matrix != null) return matrix;
+        matrix = new double [] {
+            width, 0, 0, 
+            0, height, 0, 
+            0, 0, depth
         };
+        if(rotz != 0) {
+            double cosz = cos(rotz);
+            double sinz = sin(rotz);
+            matrix = dotMatrices3x3(new double[]{
+                cosz, -sinz, 0,
+                sinz, cosz, 0,
+                0, 0, 1
+            }, matrix);
+        }
+        if(rotx != 0) {
+            double cosx = cos(rotx);
+            double sinx = sin(rotx);
+            matrix = dotMatrices3x3(new double[]{
+                1, 0, 0, 
+                0, cosx, -sinx, 
+                0, sinx, cosx 
+            }, matrix);
+        }
+        if(roty != 0) {
+            double cosy = cos(roty);
+            double siny = sin(roty);
+            matrix = dotMatrices3x3(new double[]{
+                cosy, 0, -siny, 
+                0, 1, 0,
+                siny, 0, cosy 
+            }, matrix);
+        }
+        
+        return matrix;
+    }
+    
+    double [] dotMatrices3x3(double [] A, double [] B){
+        double [] C = new double [9];
+        int i, j, k;
+        
+        for(i = 0; i < 3; i++){
+            for(j = 0; j < 3; j++){
+                C[3*i + j] = 0;
+                for(k = 0; k < 3; k++){
+                    C[3*i + j] += A[3*i + k] * B[3*k + j];
+                }
+            }
+        }
+        return C;
     }
     
     Point transform(Point p){
         Point q = new Point();
-        double [] m = getMatrix();
+        double [] m = getTransformMatrix();
         /*
         dst.x = src.x * m[0][0] + src.y * m[1][0] + src.z * m[2][0] + m[3][0]; 
         dst.y = src.x * m[0][1] + src.y * m[1][1] + src.z * m[2][1] + m[3][1]; 

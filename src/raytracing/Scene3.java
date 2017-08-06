@@ -26,7 +26,7 @@ public class Scene3 extends Scene {
         
         // an object from file
         
-        try {
+        /*try {
             TriangleMesh cube2 = TriangleMesh.loadGeoFile("cube2.geo", new Shade(0xff0000));
             if(cube2 != null){
                 objects.add(cube2);
@@ -36,7 +36,7 @@ public class Scene3 extends Scene {
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
-        }
+        }*/
         
         try {
             TriangleMesh cube = TriangleMesh.loadGeoFile("cow.geo", new Shade(0xffffff));
@@ -44,7 +44,7 @@ public class Scene3 extends Scene {
                 objects.add(cube);
                 cube.type = GeometricObject.MaterialType.Diffuse;
                 cube.ior = 1.9;
-                cube.transform(new TransformMatrix().setScale(2).setRoll(-45).setYaw(30));
+                cube.transform(new TransformMatrix().setScale(2).setRotation(45)/*.setRotation(0, 45, 30)*/);
                 //objects.add(new BoundingBox(cube.vertices, cube.shade));
             }
         } catch (Exception e) {
@@ -57,7 +57,7 @@ public class Scene3 extends Scene {
                 new Point(0,0,-2),
                 new Shade(1,0,0));
         
-        triangle.transform(new TransformMatrix().setHeight(2).setPosition(new Point(-3,0,3)));
+        //triangle.transform(new TransformMatrix().setHeightScale(2).setPosition(new Point(-3,0,3)));
         
         objects.add(triangle);
         
