@@ -24,6 +24,9 @@ public abstract class GeometricObject {
     Shade getTexture(Point uv){
         return shade;
     }
+    Point getUVcoordinates(Point p){
+        return new Point(0,0,0);
+    }
     
     enum MaterialType{
         Texture, Diffuse, Reflection, ReflectionAndRefraction, Glossy

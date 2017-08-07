@@ -107,9 +107,9 @@ public class Hit {
             }
             if(hit == null){
                 // not in shadow
-                if(triangle != null && object.type == GeometricObject.MaterialType.Texture){
-                    Point uv = triangle.getUVcoordinates(point);
-                    shade.add(triangle.getTexture(uv).mul(light.color).mul(light.brightness*Math.max(0,shadowRay.direction.dot(normal))));
+                if(object.type == GeometricObject.MaterialType.Texture){
+                    Point uv = ((triangle != null)?triangle:object).getUVcoordinates(point);
+                    shade.add(((triangle != null)?triangle:object).getTexture(uv).mul(light.color).mul(light.brightness*Math.max(0,shadowRay.direction.dot(normal))));
                 } else {
                     shade.add(object.shade.mul(light.color).mul(light.brightness*Math.max(0,shadowRay.direction.dot(normal))));
                 }

@@ -67,7 +67,13 @@ public class Scene3 extends Scene {
         objects.add(triangle);
         
         // zoom
-        //objects.add(new Sphere(new Point(-25,50,150), 10, new Shade(1,0,0), GeometricObject.MaterialType.ReflectionAndRefraction, 1.7));
+        try{
+            Sphere sphere = new Sphere(new Point(-10,5,0), 3, new Shade(1,0,0), GeometricObject.MaterialType.Texture, 1.7);
+            sphere.setTexture(new Texture("globe.png"), new Normal(0,-1,0), new Normal(0,0,1));
+            objects.add(sphere);
+        }  catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
         
         // floor
         objects.add(new Plane(new Point(0,-1,0), new Normal(0, 1, 0), new Shade(0x929292)));
@@ -78,6 +84,6 @@ public class Scene3 extends Scene {
     
     @Override
     Projection getProjection(int height){
-        return new Projection.Perspective(height,new Point(-5, 0, 5), new Point(0, 0, 0), 45);
+        return new Projection.Perspective(height,new Point(-20, 20, 5), new Point(0, 0, 0), 45);
     }
 }

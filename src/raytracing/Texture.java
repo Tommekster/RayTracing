@@ -28,4 +28,11 @@ public class Texture {
         
         return new Shade(bitmap.getRGB(x, y));
     }
+    
+    Shade getColor(Point point){
+        int x = (int)(point.x*bitmap.getWidth());
+        int y = (int)(point.y*bitmap.getHeight());
+        
+        return new Shade(bitmap.getRGB(x, y));
+    }
 }
