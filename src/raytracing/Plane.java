@@ -12,6 +12,11 @@ package raytracing;
 public class Plane extends GeometricObject{
     Point point;
     Normal normal;
+
+    Texture texture = null;
+    Normal texNormal = null;
+    double texWidth;
+    double texHeight;
     
     Plane(Point _point, Normal _normal, Shade _shade){
         point = new Point(_point);
@@ -47,7 +52,40 @@ public class Plane extends GeometricObject{
     Normal getPointNormal(Point p) {
         return normal;
     }
-    
+
+    @Override
+    Shade getTexture(Point uv) {
+        if(texture == null) {
+            return shade.mul(((uv.x > 0.5)?1:(-1))*((uv.y > 0.5)?1:(-1)) > 0 ? 1 : 0.5);            
+        }
+        return texture.getColor(uv);
+    }
+
+    void setTexture(Texture texture, Point direction, double width, double height){
+        texWidth = width;
+        texHeight = height;
+        this.texture = texture;
+        Vector pa = direction.sub(point);
+        texNormal = new Normal(pa.sub(normal.mul(normal.dot(pa))));
+    }
+
+    @Override
+    Point getUVcoordinates(Point p){
+        if(texNormal == null) {
+            
+            texNormal = (Math.abs(normal.x) > Math.abs(normal.y))?new Normal(normal.z,0,-normal.x):new Normal(0,-normal.z,normal.y);
+            texWidth = 10;
+            texHeight = 10;
+        }
+        Point po = p.sub(point);
+        //Point pop = po.sub(normal.mul(normal.dot(p)));
+	double y = texNormal.dot(po)/texHeight;
+        double x = po.sub(texNormal.mul(texNormal.dot(po))).getMagnitude()/texWidth;
+        y -= Math.floor(y);
+        x -= Math.floor(x);
+        return new Point(x,y,0);
+    }
+
     /*static class Finite {
         
     }*/

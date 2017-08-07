@@ -65,6 +65,7 @@ public class Sphere extends GeometricObject{
         return texture.getColor(uv);
     }
     
+    @Override
     Point getUVcoordinates(Point p){
         if(top == null || right == null || front == null){
             top = new Normal(0,1,0);
@@ -82,13 +83,8 @@ public class Sphere extends GeometricObject{
 	else
 		v = Math.atan(pc.dot(front)/r2) + ((r2 < 0)?Math.PI:0) + Math.PI/2;
 	v /= Math.PI*2;
-        //System.out.println(""+new Point(u,v,1));
-        if(u < 0 || v < 0 || u > 1 || v > 1){
-            System.out.println("(u,v)=("+u+","+v+")");
-            System.out.println("pc="+pc);
-        }
         
-        return new Point(u,v,1);
+        return new Point(v,u,1);
     }
     
     void setTexture(Texture texture, Normal top, Normal right){

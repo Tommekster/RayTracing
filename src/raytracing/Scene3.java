@@ -69,14 +69,20 @@ public class Scene3 extends Scene {
         // zoom
         try{
             Sphere sphere = new Sphere(new Point(-10,5,0), 3, new Shade(1,0,0), GeometricObject.MaterialType.Texture, 1.7);
-            sphere.setTexture(new Texture("globe.png"), new Normal(0,-1,0), new Normal(0,0,1));
+            sphere.setTexture(new Texture("globe.png"), new Normal(0,1,0), new Normal(0,0,1));
             objects.add(sphere);
         }  catch (Exception e) {
             System.err.println(e.getMessage());
         }
         
         // floor
-        objects.add(new Plane(new Point(0,-1,0), new Normal(0, 1, 0), new Shade(0x929292)));
+        Plane floor = new Plane(new Point(0,-1,0), new Normal(0, 1, 0), new Shade(0x929292), GeometricObject.MaterialType.Texture);
+        objects.add(floor);
+        try{
+            floor.setTexture(new Texture("texture2.png"), new Point(1,0,0), 10, 10);
+        }  catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
         
         // right wall
         objects.add(new Plane(new Point(10,0,0), new Normal(-1, 0, 0), new Shade(0xc58a00), GeometricObject.MaterialType.Reflection, 2));
