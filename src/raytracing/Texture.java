@@ -38,10 +38,26 @@ public class Texture {
     }
     
     Vector getBump(Point point){
-        double center, c1;
-        double diffx, diffy;
-        int x = (int)(point.x*bitmap.getWidth());
-        int y = (int)(point.y*bitmap.getHeight());
+        Vector grad, grad2;
+        double xf = point.x*bitmap.getWidth();
+        double yf = point.y*bitmap.getHeight();
+        int x = (int)xf;
+        int y = (int)yf;
+        double xfm = xf-x;
+        double yfm = yf-y;
+        
+        grad = getGrad(x, y);
+        grad2 = getGrad((x == bitmap.getWidth())?0:x+1,(y == bitmap.getHeight())?0:y+1);
+        
+        return new Vector(grad.x*(1-xfm)+xfm*grad2.x,grad.y*(1-yfm)+yfm*grad2.y,0);
+    }
+    
+    Vector getGrad(int x, int y){
+        double center, diffx, diffy;
+        if(x < 0) x = 0;
+        else if(x > bitmap.getWidth()-1) x = bitmap.getWidth()-1;
+        if(y < 0) y = 0;
+        else if(y > bitmap.getHeight()-1) y = bitmap.getHeight()-1;
         
         center = new Shade(bitmap.getRGB(x, y)).r;
         if(x > 0) {
