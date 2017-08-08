@@ -13,7 +13,8 @@ public abstract class GeometricObject {
     Shade shade;
     MaterialType type = MaterialType.Diffuse;
     double ior = 1;
-    double [] albedo = {0.18, 0.18, 0.18}; 
+    int phong_n = 2;
+    double Kd = 1, Ks = 0.5, Ka = 0.3;
     
     abstract double hit(Ray ray);
     abstract Normal getPointNormal(Point p);
@@ -29,6 +30,6 @@ public abstract class GeometricObject {
     }
     
     enum MaterialType{
-        Texture, Diffuse, Reflection, ReflectionAndRefraction, Glossy
+        Texture, Diffuse, Reflection, ReflectionAndRefraction, Glossy, Phong
     }
 }

@@ -68,4 +68,20 @@ public abstract class Light {
         }
         
     }
+    
+    static class Ambient extends Light{
+
+        Ambient(Shade color){
+            this.color = color;
+        }
+        Ambient(Shade color, double bright){
+            this.color = color;
+            brightness = bright;
+        }
+        @Override
+        Vector getDirection(Point p) {
+            return new Vector();
+        }
+        
+    }
 }

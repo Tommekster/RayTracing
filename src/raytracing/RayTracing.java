@@ -20,7 +20,7 @@ public class RayTracing {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws IOException {
-        Painture p = new Painture(new Scene3());
+        Painture p = new Painture(new Scene4());
         System.out.println("generating thumbnail...");
         //p.setDimensions(160, 120, 4);
         p.createImage();
