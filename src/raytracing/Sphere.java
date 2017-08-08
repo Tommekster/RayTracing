@@ -71,7 +71,7 @@ public class Sphere extends GeometricObject{
         Point pc = p.sub(center);
 	double pc_top = pc.dot(top);
 
-        double u = Math.acos(pc_top/radius)/2/Math.PI;
+        double u = Math.acos(pc_top/radius)/Math.PI;
 	double r2 = pc.dot(right);
 	double v;
 	if (r2 == 0) 

@@ -9,8 +9,8 @@ package raytracing;
  *
  * @author zikmundt
  */
-public class Scene5 extends Scene {
-    public Scene5() {
+public class Scene6 extends Scene {
+    public Scene6() {
         background = new Shade(0,1,1);
         //shadows = false;
         indirectSamples = 50;
@@ -32,16 +32,20 @@ public class Scene5 extends Scene {
         objects.add(triangle);
         //triangle.Ki = 0.2;
         
-        // a ball
-        Sphere ball = new Sphere(new Point(0,2,0), 1, new Shade(1,0,0),GeometricObject.MaterialType.ReflectionAndRefraction, 1.5);
-        objects.add(ball);
-        Sphere ball2 = new Sphere(new Point(1.5,2,-2), 1, new Shade(0,1,0), GeometricObject.MaterialType.Texture);
-        objects.add(ball2);
+        double [] angles = {0, 90, 180, 270};
+        Normal top = new Normal(0,1,0);
+        Texture globe = null;
         try{
-        ball2.setTexture(new Texture("globe.png"), new Normal(0, -1, 0), new Normal(1,0,0));
+            globe = new Texture("texture.png");
         } catch(Exception e){}
-        ball2.phong_n = 100;
-        //ball2.Ki = 1;
+        int i = 0;
+        if(globe != null)
+        for(double ang : angles){
+            ;
+            Sphere ball = new Sphere(new Point(-3+3*i++,2,0), 1, new Shade(), GeometricObject.MaterialType.Texture);
+            ball.setTexture(globe, top, new Normal(new TransformMatrix().setRotation(ang).transform(new Point(0,0,1))));
+            objects.add(ball);
+        }
         
         // floor
         Plane floor = new Plane(new Point(0,0,0), new Normal(0, 1, 0), new Shade(0x929292), GeometricObject.MaterialType.Glossy,2);
