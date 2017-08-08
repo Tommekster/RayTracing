@@ -14,9 +14,12 @@ public class Plane extends GeometricObject{
     Normal normal;
 
     Texture texture = null;
+    Texture bumpTexture = null;
     Normal texNormal = null;
+    Normal Nt = null;
     double texWidth;
     double texHeight;
+    double bumpRatio;
     
     Plane(Point _point, Normal _normal, Shade _shade){
         this(_point, _normal, _shade, null, 0);
@@ -42,7 +45,16 @@ public class Plane extends GeometricObject{
     
     @Override
     Normal getPointNormal(Point p) {
-        return normal;
+        if(bumpTexture == null) return normal;
+        Point uv = getUVcoordinates(p);
+        Vector bumpVec = bumpTexture.getBump(uv);
+        Normal bump = new Normal(bumpVec.x, bumpRatio, bumpVec.y);
+        
+        return new Normal(
+                bump.x * texNormal.x + bump.y * normal.x + bump.z * Nt.x,
+                bump.x * texNormal.y + bump.y * normal.y + bump.z * Nt.y,
+                bump.x * texNormal.z + bump.y * normal.z + bump.z * Nt.z
+        );
     }
 
     @Override
@@ -61,10 +73,19 @@ public class Plane extends GeometricObject{
         texNormal = new Normal(pa.sub(normal.mul(normal.dot(pa))));
     }
 
+    void setBumpTexture(Texture texture, Point direction, double width, double height, double ratio){
+        texWidth = width;
+        texHeight = height;
+        this.bumpTexture = texture;
+        Vector pa = direction.sub(point);
+        texNormal = new Normal(pa.sub(normal.mul(normal.dot(pa))));
+        Nt = new Normal(normal.cross(texNormal));
+        bumpRatio = ratio;
+    }
+
     @Override
     Point getUVcoordinates(Point p){
         if(texNormal == null) {
-            
             texNormal = (Math.abs(normal.x) > Math.abs(normal.y))?new Normal(normal.z,0,-normal.x):new Normal(0,-normal.z,normal.y);
             texWidth = 10;
             texHeight = 10;

@@ -5,6 +5,8 @@
  */
 package raytracing;
 
+import java.util.Random;
+
 /**
  *
  * @author zikmundt
@@ -25,5 +27,24 @@ public class Normal extends Vector{
     Normal(Point p){
         super(p);
         normalize();
+    }
+    
+    static Normal getRandom(){
+        Random random = new Random();
+        double theta = random.nextDouble()*Math.PI*2 - Math.PI;
+        double r1 = random.nextDouble();
+        double sinphi = Math.sqrt(1 - r1*r1);
+        return new Normal(sinphi*Math.cos(theta),r1,sinphi*Math.sin(theta));
+    }
+    
+    static Normal getRandom(Normal top){
+        Normal Nt = (Math.abs(top.x) > Math.abs(top.y))?new Normal(top.z,0,-top.x):new Normal(0,-top.z,top.y);
+        Normal Nb = new Normal(top.cross(Nt));
+        Normal sample = getRandom();
+        return new Normal(
+                sample.x * Nb.x + sample.y * top.x + sample.z * Nt.x,
+                sample.x * Nb.y + sample.y * top.y + sample.z * Nt.y,
+                sample.x * Nb.z + sample.y * top.z + sample.z * Nt.z
+        );
     }
 }

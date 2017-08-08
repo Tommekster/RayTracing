@@ -14,7 +14,7 @@ import java.io.IOException;
 public class RayTracing {
     public static final double MINIMAL_VALUE = 1E-4;
     public static final double BIAS = 1E-4;
-    public static final int MAX_DEPTH = 5;
+    public static final int MAX_DEPTH = 10;
 
     /**
      * @param args the command line arguments
@@ -31,7 +31,8 @@ public class RayTracing {
         
         p.setDimensions(640, 480, 1);
         p.setDimensions(320, 240, 2);
-        p.tracer.sampler = new Sampler.Regular(1);
+        p.scene.indirectSamples = 50;
+        p.tracer.sampler = new Sampler.Regular(2);
         p.createImage();
         mw.displayImage(p.buffer);
         //p.saveFile("image.png");

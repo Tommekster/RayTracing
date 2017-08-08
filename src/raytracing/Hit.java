@@ -163,7 +163,7 @@ public class Hit {
 
     Ray getReflectedRay(Normal normal, Vector direction){
         Vector vector = new Vector(direction.sub(normal.mul(2*direction.dot(normal)))); 
-        return new Ray(point.add(vector.mul(-RayTracing.BIAS)),
+        return new Ray(point.add(vector.mul(RayTracing.BIAS)),
                 vector);
     }
 

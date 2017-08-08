@@ -5,6 +5,7 @@
  */
 package raytracing;
 
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -34,5 +35,26 @@ public class Texture {
         int y = (int)(point.y*bitmap.getHeight());
         
         return new Shade(bitmap.getRGB(x, y));
+    }
+    
+    Vector getBump(Point point){
+        double center, c1;
+        double diffx, diffy;
+        int x = (int)(point.x*bitmap.getWidth());
+        int y = (int)(point.y*bitmap.getHeight());
+        
+        center = new Shade(bitmap.getRGB(x, y)).r;
+        if(x > 0) {
+            diffx = center - new Shade(bitmap.getRGB(x-1, y)).r;
+        } else {
+            diffx = new Shade(bitmap.getRGB(x+1, y)).r - center;
+        }
+        if(y > 0) {
+            diffy = center - new Shade(bitmap.getRGB(x, y-1)).r;
+        } else {
+            diffy = new Shade(bitmap.getRGB(x, y+1)).r - center;
+        }
+        
+        return new Vector(diffx, diffy, 0);
     }
 }
