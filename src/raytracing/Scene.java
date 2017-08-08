@@ -19,6 +19,7 @@ public abstract class Scene {
         lights.add(new Light.Distant());
     }
     boolean shadows = true;
+    int indirectSamples = 0;
     
     Hit hitObject(Ray ray){
         return hitObject(ray,false);

@@ -13,8 +13,8 @@ public class BoundingBox extends GeometricObject{
 
     Point min, max, mid;
 
-    public BoundingBox(Point [] points, Shade _shade) {
-        shade = (_shade != null)?new Shade(_shade):null;
+    public BoundingBox(Point [] points, Shade shade) {
+        super(shade);
         min = new Point(points[0]);
         max = new Point(points[0]);
         
@@ -25,8 +25,8 @@ public class BoundingBox extends GeometricObject{
         this.mid = getMidpoint();
     }
 
-    public BoundingBox(Triangle [] triangles, Shade _shade) {
-        shade = (_shade != null)?new Shade(_shade):null;
+    public BoundingBox(Triangle [] triangles, Shade shade) {
+        super(shade);
         min = new Point(triangles[0].point);
         max = new Point(triangles[0].point);
         

@@ -16,21 +16,17 @@ public class Cylinder extends GeometricObject{
     Point point;
     
     Cylinder(Point a, Point b, double _radius, Shade _shade){
-        normal = new Normal(b.sub(a));
-        point = a;
-        radius = _radius;
-        radius2 = radius*radius;
-        shade = _shade;        
+        this(a,b,_radius,_shade,null,0);
     }
     Cylinder(Point a, Point b, double _radius, Shade _shade, MaterialType _type){
-        this(a,b,_radius,_shade);
-        type = _type;
-        if(type == MaterialType.ReflectionAndRefraction) ior = 1.2;
+        this(a,b,_radius,_shade,_type,0);
     }
     Cylinder(Point a, Point b, double _radius, Shade _shade, MaterialType _type, double _ior){
-        this(a,b,_radius,_shade);
-        type = _type;
-        ior = _ior;
+        super(_shade, _type, _ior);
+        normal = new Normal(b.sub(a));
+        point = a;
+        radius = (_radius > 0)?_radius:1;
+        radius2 = radius*radius;
     }
 
     @Override
@@ -47,7 +43,6 @@ public class Cylinder extends GeometricObject{
         double discriminant = b*b -4*a*c;
         if(discriminant < 0) return 0;
         else {
-            //System.out.println(""+a+" "+b+" "+c);
             return retVal((-b - Math.sqrt(discriminant))/2/a);
         }
     }
@@ -62,25 +57,19 @@ public class Cylinder extends GeometricObject{
     static class Finite extends Cylinder{
         Disk top;
         Disk bottom;
-        //Point midpoint;
         double height;
         
         public Finite(Point a, Point b, double _radius, Shade _shade) {
-            super(a, b, (_radius > 0)?_radius:10, _shade);
-            top = new Disk(b,normal, _radius, _shade);
-            bottom = new Disk(a,new Normal(normal.mul(-1)), _radius, _shade);
-            //midpoint = a.add(b).mul(2);
-            height = b.sub(a).getMagnitude();
+            this(a,b,_radius,_shade,null,0);
         }
         public Finite(Point a, Point b, double _radius, Shade _shade,MaterialType _type) {
-            this(a, b, (_radius > 0)?_radius:10, _shade);
-            type = _type;
-            if(type == MaterialType.ReflectionAndRefraction) ior = 1.2;
+            this(a,b,_radius,_shade,_type,0);
         }
         public Finite(Point a, Point b, double _radius, Shade _shade,MaterialType _type, double _ior) {
-            this(a, b, (_radius > 0)?_radius:10, _shade);
-            type = _type;
-            ior = _ior;
+            super(a,b,_radius,_shade,_type,_ior);
+            top = new Disk(b,normal, _radius, _shade);
+            bottom = new Disk(a,new Normal(normal.mul(-1)), _radius, _shade);
+            height = b.sub(a).getMagnitude();
         }
         
 

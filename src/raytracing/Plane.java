@@ -19,25 +19,17 @@ public class Plane extends GeometricObject{
     double texHeight;
     
     Plane(Point _point, Normal _normal, Shade _shade){
-        point = new Point(_point);
-        normal = new Normal(_normal);
-        shade = (_shade != null)?new Shade(_shade):null;
+        this(_point, _normal, _shade, null, 0);
     }
     
     Plane(Point _point, Normal _normal, Shade _shade, MaterialType _type){
-        point = new Point(_point);
-        normal = new Normal(_normal);
-        shade = new Shade(_shade);
-        type = _type;
-        if(_type == MaterialType.ReflectionAndRefraction) ior = 1.2;
+        this(_point, _normal, _shade, _type, 0);
     }
     
     Plane(Point _point, Normal _normal, Shade _shade, MaterialType _type, double _ior){
+        super(_shade,_type,_ior);
         point = new Point(_point);
         normal = new Normal(_normal);
-        shade = new Shade(_shade);
-        type = _type;
-        ior = _ior;
     }
 
     @Override

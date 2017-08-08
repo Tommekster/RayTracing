@@ -20,8 +20,15 @@ public class Triangle extends Plane {
     Texture texture;
     
     public Triangle(Point a, Point b, Point c, Shade _shade) {
-        super(a, new Normal(b.sub(a).cross(c.sub(a))), _shade);
-        //this.a = a;
+        this(a,b,c,_shade,null,0);
+    }
+    
+    Triangle(Point a, Point b, Point c, Shade _shade, MaterialType _type) {
+        this(a,b,c,_shade,_type,0);
+    }
+    
+    Triangle(Point a, Point b, Point c, Shade _shade, MaterialType _type, double _ior) {
+        super(a, new Normal(b.sub(a).cross(c.sub(a))), _shade, _type, _ior);
         this.b = b;
         this.c = c;
         computeEdges();
@@ -32,12 +39,6 @@ public class Triangle extends Plane {
         cb = c.sub(b);
         ac = point.sub(c);
         area = ba.cross(c.sub(point)).getMagnitude() / 2;
-    }
-    
-    Triangle(Point a, Point b, Point c, Shade _shade, MaterialType _type) {
-        this(a,b,c,_shade);
-        type = _type;
-        if(_type == MaterialType.ReflectionAndRefraction) ior = 1.2;
     }
 
     @Override

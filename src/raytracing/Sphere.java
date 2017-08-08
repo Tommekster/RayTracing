@@ -18,22 +18,18 @@ public class Sphere extends GeometricObject{
     Texture texture = null;
 
     public Sphere(Point _center, double _radius, Shade _shade) {
-        center = new Point(_center);
-        radius = _radius;
-        radius2 = radius*radius;
-        shade = new Shade(_shade);
+        this(_center, _radius, _shade, null, 0);
     }
 
     Sphere(Point _center, double _radius, Shade _shade, MaterialType _type) {
-        this(_center, _radius, _shade);
-        type = _type;
-        if(type == MaterialType.ReflectionAndRefraction) ior = 1.2;
+        this(_center, _radius, _shade, _type, 0);
     }
 
     Sphere(Point _center, double _radius, Shade _shade, MaterialType _type, double _ior) {
-        this(_center, _radius, _shade);
-        type = _type;
-        ior = _ior;
+        super(_shade, _type, _ior);
+        center = new Point(_center);
+        radius = (_radius > 0)?_radius:1;
+        radius2 = radius*radius;
     }
 
     @Override

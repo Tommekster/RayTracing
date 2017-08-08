@@ -45,13 +45,8 @@ public class Hit {
             case Diffuse:
             case Texture:
                 {
-                    Shade shade = getDiffuseShade(s);
+                    Shade shade = getDiffuseShade(s,depth);
                     return shade;
-                }
-
-            case Phong:
-                {
-                    return getDiffuseShade(s,true);
                 }
                 
             case Reflection:
@@ -72,7 +67,7 @@ public class Hit {
                     //return new Shade(0,0,kr);
                     if(kr < 1) { // it is not internal reflection
                         if(object.type == GeometricObject.MaterialType.Glossy){
-                            Shade dShade = getDiffuseShade(s);
+                            Shade dShade = getDiffuseShade(s,depth);
                             shade.add(dShade.mul(1-kr));
                         } else {
                             Ray refractedRay = getRefractedRay();
@@ -89,24 +84,33 @@ public class Hit {
                     } else {
                         shade.add(s.background.mul(kr));
                     }
+                    if(object.Ks != 0){ 
+                        for(Light light : s.lights){
+                            if(!(light instanceof Light.Ambient)) {
+                                Ray lightReflected = getReflectedRay(normal,light.getDirection(point).mul(-1)); 
+                                double spec = ray.direction.dot(lightReflected.direction);
+                                spec = (spec < 0) ? 0 : Math.pow(spec,object.phong_n);
+                                shade.add(light.color.mul(light.brightness*object.Ks*spec));
+                            }
+                        }
+                    }
+                    shade.norm();
                     return shade;
                 }
         }
         return new Shade(s.background);
     }
-
-    Shade getDiffuseShade(Scene s) {
-        return getDiffuseShade(s, false);
-    }
-    Shade getDiffuseShade(Scene s, boolean specular) {
+    
+    Shade getDiffuseShade(Scene s, int depth) {
+        Point biasPoint = point.add(ray.direction.mul(-RayTracing.BIAS));
         Shade shade = new Shade();
         for (Light light : s.lights){
-            Ray shadowRay = new Ray(point, light.getDirection(point).mul(-1));
+            Ray shadowRay = new Ray(biasPoint, light.getDirection(point).mul(-1));
             shadowRay.direction.normalize();
             normal.normalize();
             
             // shadow ray
-            Hit hit = (s.shadows || !(light instanceof Light.Ambient))?s.hitObject(shadowRay, true):null;
+            Hit hit = (s.shadows && !(light instanceof Light.Ambient))?s.hitObject(shadowRay, true):null;
             if(hit != null && light instanceof Light.Spherical){
                 Point lp = ((Light.Spherical)light).position;
                 Point hit_lp = point.sub(lp);
@@ -122,7 +126,7 @@ public class Hit {
                 } else {
                     shade.add(object.shade.mul(light.color).mul(light.brightness*object.Kd*LN));
                 }
-                if(specular && !(light instanceof Light.Ambient)) {
+                if(object.Ks != 0 && !(light instanceof Light.Ambient)) {
                     Ray lightReflected = getReflectedRay(normal,light.getDirection(point).mul(-1)); 
                     double spec = ray.direction.dot(lightReflected.direction);
                     spec = (spec < 0) ? 0 : Math.pow(spec,object.phong_n);
@@ -131,6 +135,20 @@ public class Hit {
             }
         }
         shade.div(s.lights.size());
+        
+        if(object.Ki != 0 && s.indirectSamples > 0){
+            Shade indirectLight = new Shade();
+            for(int n = 0; n < s.indirectSamples; n++){
+                Ray indirect = new Ray(biasPoint, Normal.getRandom(normal));
+                Hit hit = s.hitObject(indirect);
+                if(hit != null){
+                    indirectLight.add(hit.getShade(s, depth+1).mul(normal.dot(indirect.direction)));
+                }
+            }
+            indirectLight.div(s.indirectSamples);
+            shade.add(indirectLight);
+        }
+                
         shade.norm();
         return shade;
     }
@@ -144,8 +162,9 @@ public class Hit {
     }
 
     Ray getReflectedRay(Normal normal, Vector direction){
-        return new Ray(point.add(normal.mul(RayTracing.BIAS)),
-                new Vector(direction.sub(normal.mul(2*direction.dot(normal)))));
+        Vector vector = new Vector(direction.sub(normal.mul(2*direction.dot(normal)))); 
+        return new Ray(point.add(vector.mul(-RayTracing.BIAS)),
+                vector);
     }
 
     Ray getRefractedRay(){

@@ -31,8 +31,7 @@ public class TriangleMesh extends GeometricObject{
     }
         
     public TriangleMesh(Point [] vertices, Normal [] normals, int [] faceIndex, int [] vertexIndex, Point [] uvs, Shade _shade) {
-        //this.vertices = vertices;
-        shade = _shade;
+        super(_shade);
         boundingBox = new BoundingBox(vertices, null);
         
         // finds how many triangles will be created 
